@@ -10,17 +10,28 @@
 
 #include <LT_PMBus.h>       // Include for PM-Bus relevant codes
 
-
-
- 
+#include <LT_SMBus.h>
+#include <LT_SMBusPec.h>
+#include <LT_SMBusBase.h>
+#include <LT_SMBusGroup.h>
+#include <LT_SMBusARA.h>
+#include <LT_Wire.h>
+#include <LT_SMBusNoPec.h>
+#include <LT_I2CBus.h>
+#include <LT_PMBusRail.h>
+#include <LT_PMBusDevice.h>
+#include <LT_PMBusSpeedTest.h>
+#include <LT_FaultLog.h>
+#include <LT_PMBusMath.h>
+#include <LT_PMBusDetect.h>
 
 //   Definition                           Code
-#define ZL2102_OPERATION                  OPERATION         // LT_BMBus
-#define ZL2102_ON_OFF_CFG                 ON_OFF_CONFIG     // LT_BMBus
-#define ZL2102_CLEAR_FAULT                CLEAR_FAULTS      // LT_BMBus
-#define ZL2102_VOUT_MODE                  VOUT_MODE         // LT_BMBus 
-#define ZL2102_VOUT_COMMAND               VOUT_COMMAND      // LT_BMBus
-#define ZL2102_VOUT_MAX                   VOUT_MAX          // LT_BMBus
+#define ZL2102_OPERATION                  OPERATION                   // LT_BMBus
+#define ZL2102_ON_OFF_CFG                 ON_OFF_CONFIG               // LT_BMBus
+#define ZL2102_CLEAR_FAULT                CLEAR_FAULTS                // LT_BMBus
+#define ZL2102_VOUT_MODE                  VOUT_MODE                   // LT_BMBus 
+#define ZL2102_VOUT_COMMAND               VOUT_COMMAND                // LT_BMBus
+#define ZL2102_VOUT_MAX                   VOUT_MAX                    // LT_BMBus
 #define ZL2102_VOUT_OV_FAULT_LIMIT        VOUT_OV_FAULT_LIMIT         // 0x40   L16u
 #define ZL2102_VOUT_OV_FAULT_RESPONSE     VOUT_OV_FAULT_RESPONSE      // 0x41   BIT
 #define ZL2102_VOUT_UV_FAULT_LIMIT        VOUT_UV_FAULT_LIMIT         // 0x44   L16U
@@ -48,13 +59,20 @@
 #define ZL2102_BLANK_PARAMS               0xEB                        // 0x10
 #define ZL2102_MFR_IOUT_OC_FAULT_RESPONSE 0xE5
 
+// Value definitions
 #define ZL2102_VOUT_MODE_VALUE            -13                         // linear mode Exponent = -13
 #define ZL2102_COMMAND_SPACING            2                           // 2ms between consecutive commands
-#define ZL2102_CLOCK_RATE                 100000
+#define ZL2102_CLOCK_RATE                 100000                      // ???
+
+static LT_SMBus *smbus = new LT_SMBusNoPec(); 
+static LT_PMBus *pmbus = new LT_PMBus(smbus);
 
 
-
-
-
+class ZL2102 {
+  public:
+    ZL2102 (uint8_t _pmbus_addr);
+  private:
+    uint8_t pmbus_addr;
+};
 
 #endif

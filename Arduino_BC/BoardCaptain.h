@@ -1,8 +1,12 @@
 
+
+
 #ifndef _BOARD_CAPTAI_H_
 #define _BOARD_CAPTAI_H_
 
 #include "Arduino.h"
+#include "ZL2102.h"
+#include <SerialCommand.h>    // command line interface (cli)
 
 
 
@@ -23,7 +27,7 @@
 #define OUT_SET_VADJ_VS0    1    //
 #define OUT_SET_VADJ_VS1    6    // 
 #define OUT_SET_VADJ_VS2    33   //
-#define OUT_EN_VADJ_1       26  //
+#define OUT_EN_VADJ_1       26   //
 
 
 // Communication
@@ -42,10 +46,13 @@ enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 }; // selectable vo
 class BoardCaptain {
   public:
     BoardCaptain ();
+    void cli_update (void);
   private:
+    SerialCommand cli;   
+  
     void set_vadj (VADJ voltage);
     void enable_vadj (bool enable);
-  
+    
   
 };
 

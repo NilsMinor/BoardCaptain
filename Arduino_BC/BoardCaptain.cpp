@@ -2,6 +2,14 @@
 #include "BoardCaptain.h"
 
 
+void cli_help_callback (void) {
+  Serial.println("Help-test");
+
+}
+
+
+
+
 
 // Initialize IOs and Communication ports
 BoardCaptain::BoardCaptain (void) {
@@ -11,7 +19,17 @@ BoardCaptain::BoardCaptain (void) {
   pinMode(OUT_SET_VADJ_VS2, OUTPUT);
   pinMode(OUT_EN_VADJ_1,    OUTPUT);
   enable_vadj (false);                // disable adjustable voltage controller
+
+
+  // initialize  cli
   
+  cli.addCommand ("help", cli_help_callback); 
+
+  
+}
+
+void BoardCaptain::cli_update (void) {
+  cli.readSerial(); 
 }
 
 static void error_handler (const char *err_msg) {
