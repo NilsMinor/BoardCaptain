@@ -44,6 +44,7 @@ class BoardCaptain {
     BoardCaptain ();
   private:
     void set_vadj (VADJ voltage);
+    void enable_vadj (bool enable);
   
   
 };
