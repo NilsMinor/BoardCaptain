@@ -2,13 +2,6 @@
 #include "BoardCaptain.h"
 
 
-void cli_help_callback (void) {
-  Serial.println("Help-test");
-
-}
-
-
-
 
 
 // Initialize IOs and Communication ports
@@ -18,18 +11,7 @@ BoardCaptain::BoardCaptain (void) {
   pinMode(OUT_SET_VADJ_VS1, OUTPUT);
   pinMode(OUT_SET_VADJ_VS2, OUTPUT);
   pinMode(OUT_EN_VADJ_1,    OUTPUT);
-  enable_vadj (false);                // disable adjustable voltage controller
-
-
-  // initialize  cli
-  
-  cli.addCommand ("help", cli_help_callback); 
-
-  
-}
-
-void BoardCaptain::cli_update (void) {
-  cli.readSerial(); 
+  enable_vadj (false);                // disable adjustable voltage controller 
 }
 
 static void error_handler (const char *err_msg) {
@@ -44,7 +26,6 @@ static void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0) {
   digitalWrite (OUT_SET_VADJ_VS0, VS1);
   digitalWrite (OUT_SET_VADJ_VS2, VS2);   
 }
-
 
 void BoardCaptain::enable_vadj (bool enable) {
   if (enable) digitalWrite (OUT_EN_VADJ_1, HIGH);

@@ -9,7 +9,7 @@
 #define _ZL2102_H_
 
 #include <LT_PMBus.h>       // Include for PM-Bus relevant codes
-
+#include <Wire.h>
 #include <LT_SMBus.h>
 #include <LT_SMBusPec.h>
 #include <LT_SMBusBase.h>
