@@ -50,20 +50,14 @@ CLI_COMMAND(helpFunc) {
 }
 
 CLI_COMMAND(setVadj) {
+  Serial.println(argc);
   if (!arg_check(argc, 2)) {
-      switch (argv[1]) {
-        case ("0V8"): dev->println("OK set Vadj 0.8V");
-                      bc.set_vadj(V_0V8);
-        break;
-        case ("1V2"): dev->println("OK set Vadj 1.2V");
-                      bc.set_vadj(V_1V2);
-        break;
-        
-      }
-      
-    
-        
-        return 0;
+      Serial.println(argv[1]);
+      if (argv[1] == "0.8")       {BC.set_vadj(V_0V8); Serial.println("0.8V");}
+      else if (argv[1] == "1.2")  {BC.set_vadj(V_1V2); Serial.println("1.2V");}
+      else return 10;
+  
+      return 0;
   }
   return 10;
 }

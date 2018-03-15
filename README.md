@@ -7,4 +7,4 @@ This project is a side project for my master thesis where I have to build a FPGA
 Since this project is based on third party libraries I'd like to think that you are familiar with the topic of arduino library management. The folowing libraries are used in this project:
 
  - Linduino for SM-BUS communication (http://www.linear.com/solutions/linduino)
- - Serial interpreter (CLI) (https://github.com/scogswell/ArduinoSerialCommand)
+ - Serial interpreter (CLI) (https://github.com/MajenkoLibraries/CLI)

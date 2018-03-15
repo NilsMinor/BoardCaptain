@@ -2,8 +2,6 @@
 #include "BoardCaptain.h"
 
 
-
-
 // Initialize IOs and Communication ports
 BoardCaptain::BoardCaptain (void) {
 
@@ -25,6 +23,7 @@ static void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0) {
   digitalWrite (OUT_SET_VADJ_VS0, VS0);
   digitalWrite (OUT_SET_VADJ_VS0, VS1);
   digitalWrite (OUT_SET_VADJ_VS2, VS2);   
+  
 }
 
 void BoardCaptain::enable_vadj (bool enable) {
@@ -35,7 +34,7 @@ void BoardCaptain::enable_vadj (bool enable) {
 // Config adjustable voltage
 void BoardCaptain::set_vadj (VADJ voltage) {
   switch (voltage) {
-    case (V_3V3): vadj_set_outputs(LOW,LOW,LOW);
+    case (V_3V3): vadj_set_outputs(LOW,LOW,LOW);  
     break;
     case (V_2V5): vadj_set_outputs(LOW,LOW,HIGH);
     break;

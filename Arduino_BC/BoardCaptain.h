@@ -46,10 +46,8 @@ enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 }; // selectable vo
 class BoardCaptain {
   public:
     BoardCaptain ();
-  private:
-    void tetFunc (void);
-  
     void set_vadj (VADJ voltage);
+  private:
     void enable_vadj (bool enable);
     
   
