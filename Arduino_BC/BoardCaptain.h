@@ -40,6 +40,11 @@
 #define SMBUS_SCL           18
 
 
+#define TEMP_INT            0
+#define TEMP_EXT1           1
+#define TEMP_EXT2           2
+
+
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 }; // selectable voltages for EN5312QI
 
 
@@ -47,9 +52,10 @@ class BoardCaptain {
   public:
     BoardCaptain ();
     void set_vadj (VADJ voltage);
+    float get_temp (uint8_t source);
   private:
     void enable_vadj (bool enable);
-    
+      
   
 };
 
