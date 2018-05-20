@@ -64,15 +64,17 @@
 #define ZL2102_COMMAND_SPACING            2                           // 2ms between consecutive commands
 #define ZL2102_CLOCK_RATE                 100000                      // ???
 
-static LT_SMBus *smbus = new LT_SMBusNoPec(); 
-static LT_PMBus *pmbus = new LT_PMBus(smbus);
+
 
 
 class ZL2102 {
   public:
-    ZL2102 (uint8_t _pmbus_addr);
+    ZL2102 (void);
+    void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
   private:
     uint8_t pmbus_addr;
+    LT_PMBus *pmbus;
+    LT_SMBus *smbus;
 };
 
 #endif
