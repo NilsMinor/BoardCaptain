@@ -1,6 +1,9 @@
 
 #include "BoardCaptain.h"
 
+#define ZL2102_ADDR_1   0x20
+#define ZL2102_ADDR_2   0x21
+#define ZL2102_ADDR_3   0x22
 
 // Initialize IOs and Communication ports
 BoardCaptain::BoardCaptain (void) {
@@ -13,9 +16,15 @@ BoardCaptain::BoardCaptain (void) {
   pinMode(OUT_EN_VADJ_1,    OUTPUT);
   enable_vadj (false);                // disable adjustable voltage controller 
 
-
   smbus = new LT_SMBusNoPec(); 
   pmbus = new LT_PMBus(smbus);
+
+  dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
+}
+
+void BoardCaptain::smbus_test (void) {
+  Serial.println (dcdc1.getVin());
+  
 }
 
 void BoardCaptain::search_smbus_devices (void) {
@@ -36,7 +45,6 @@ void BoardCaptain::vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0) {
   digitalWrite (OUT_SET_VADJ_VS0, VS1);
   digitalWrite (OUT_SET_VADJ_VS2, VS2);   
 }
-
 void BoardCaptain::enable_vadj (bool enable) {
   if (enable) digitalWrite (OUT_EN_VADJ_1, HIGH);
   else        digitalWrite (OUT_EN_VADJ_1, LOW);
@@ -64,7 +72,6 @@ void BoardCaptain::set_vadj (VADJ voltage) {
   }
 }
 float BoardCaptain::get_parameter (uint8_t psu, PARAMETER parameter) {
-
 
   
 }

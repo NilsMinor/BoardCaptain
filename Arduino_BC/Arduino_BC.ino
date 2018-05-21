@@ -55,7 +55,7 @@ void loop() {
   delay(200);
   BC.state_led (BC_OK);
   delay(200);
-  BC.search_smbus_devices();
+  BC.smbus_test();
  
 }
 

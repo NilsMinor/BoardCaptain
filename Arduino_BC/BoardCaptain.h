@@ -57,6 +57,7 @@ class BoardCaptain {
     float get_temp (uint8_t source);
     float get_parameter (uint8_t psu, PARAMETER parameter);
     void  state_led (LED_STATE state);
+    void smbus_test (void);
 
     void search_smbus_devices (void);
     
