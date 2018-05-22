@@ -49,7 +49,6 @@ bool BoardCaptain::sense_enable_input (void) {
 void BoardCaptain::smbus_test (void) {
   Serial.println (dcdc1.getVin());
 }
-
 void BoardCaptain::search_smbus_devices (void) {
   uint8_t *addr;
   addr = smbus->probe(0);

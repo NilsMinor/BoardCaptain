@@ -24,8 +24,7 @@
 #define OUT_SET_VADJ_VS2    33    // MOSI Pin 10
 #define OUT_EN_VADJ_1       7     // Pin
  // D5 is N.C.
-
-
+ 
 #define FAN_DRIVE_1         9     // Pin 29   // PWM Drive for fan 1
 #define FAN_DRIVE_2         10    // Pin 30   // PWM Drive for fan 2
 
@@ -33,7 +32,6 @@
 #define FAN_TACH_1          1     // Pin      // Tacho input for fan 1
 #define FAN_TACH_2          8     // Pin 28   // Tacho input for fan 2
 #define SYSTEM_EN           13    // Pin 32   // Enable system, active low pulled down on module
-
 
 // Communication
 // TX       D1
@@ -49,14 +47,13 @@ enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
 enum PARAMETER { VOLTAGE, CURRENT, POWER}; 
 
-
 class BoardCaptain {
   public:
     BoardCaptain ();
     void  set_vadj (VADJ voltage);
     float get_temp (uint8_t source);
     float get_parameter (uint8_t psu, PARAMETER parameter);
-    void  state_led (LED_STATE state);
+    void state_led (LED_STATE state);
     void smbus_test (void);
     void search_smbus_devices (void);
 
