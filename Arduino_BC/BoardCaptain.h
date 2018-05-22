@@ -32,7 +32,7 @@
 // Inputs         
 #define FAN_TACH_1          1     // Pin      // Tacho input for fan 1
 #define FAN_TACH_2          8     // Pin 28   // Tacho input for fan 2
-#define SYSTEM_EN           13    // Pin 32   // Enable system, active low  
+#define SYSTEM_EN           13    // Pin 32   // Enable system, active low pulled down on module
 
 
 // Communication
@@ -65,7 +65,7 @@ class BoardCaptain {
     void enable_vadj (bool enable);
     void error_handler (const char *err_msg);
     void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0);
-    bool sense_enable (void);
+    bool sense_enable_input (void);
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;

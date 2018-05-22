@@ -18,7 +18,7 @@ BoardCaptain::BoardCaptain (void) {
 
   smbus = new LT_SMBusNoPec(); 
   pmbus = new LT_PMBus(smbus);
-
+ 
   dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
 
   temp_internal = new NTC_Thermistor(
@@ -31,16 +31,23 @@ BoardCaptain::BoardCaptain (void) {
     100                 // delay
   );
 
-  sense_enable ();
+  pinMode (SYSTEM_EN, INPUT);
+  sense_enable_input ();      // update 
 }
 
-bool BoardCaptain::sense_enable (void) {
-
-
+bool BoardCaptain::sense_enable_input (void) {
+  if (digitalRead (SYSTEM_EN) == HIGH) {
+    system_enabled = false;
+    Serial.println("Not enabled");
+  }
+  else {
+    system_enabled = true;
+    Serial.println("enabled");
+  }
+  return system_enabled;
 }
 void BoardCaptain::smbus_test (void) {
   Serial.println (dcdc1.getVin());
-  
 }
 
 void BoardCaptain::search_smbus_devices (void) {
