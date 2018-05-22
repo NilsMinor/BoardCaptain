@@ -20,6 +20,16 @@ BoardCaptain::BoardCaptain (void) {
   pmbus = new LT_PMBus(smbus);
 
   dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
+
+  temp_internal = new NTC_Thermistor(
+    ADC_TEMP_INTERN,    // ADC Pin
+    10500,              // Reference resistance
+    15000,              // Resistance at      
+    25,                 // nominal temperature
+    3950,               // B value
+    10,                 // Ave value (x readings)
+    100                 // delay
+  );
 }
 
 void BoardCaptain::smbus_test (void) {
@@ -78,7 +88,10 @@ float BoardCaptain::get_parameter (uint8_t psu, PARAMETER parameter) {
 void  BoardCaptain::state_led (LED_STATE state) {
   if (state == BC_ERROR)    digitalWrite (OUT_nLED_RG, LOW);
   else if (state == BC_OK)  digitalWrite (OUT_nLED_RG, HIGH); 
-  
+}
+
+double BoardCaptain::getTempIntern (void) {
+  return temp_internal->readCelsius();
 }
 
 

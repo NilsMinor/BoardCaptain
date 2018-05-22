@@ -10,7 +10,7 @@ void ZL2102::init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr)
   smbus = smbus_obj;
 
   
-  pmbus->setVout (pmbus_addr, 1.0);
+  //pmbus->setVout (pmbus_addr, 1.0);
 }
 
 ZL2102::ZL2102 (void) {
@@ -23,5 +23,8 @@ ZL2102::ZL2102 (void) {
 float ZL2102::getVin(void) {
   float v = pmbus->readVin (pmbus_addr, false);
   return v;
+}
+void setVout (float vout) {
+  
 }
 

@@ -1,13 +1,11 @@
 
-
-
-
 #ifndef _BOARD_CAPTAI_H_
 #define _BOARD_CAPTAI_H_
 
 #include "Arduino.h"
 #include "ZL2102.h"
 #include <CLI.h>
+#include <NTC_Thermistor.h>
 
 
 // IO definitions
@@ -18,7 +16,7 @@
 //#define ADC???              AIN2
 #define ADC_TEMP_1          AIN3
 #define ADC_TEMP_2          AIN4
-#define ADC_TEMP_INTERN     AIN5    
+#define ADC_TEMP_INTERN     A5    
 
       
 
@@ -58,9 +56,9 @@ class BoardCaptain {
     float get_parameter (uint8_t psu, PARAMETER parameter);
     void  state_led (LED_STATE state);
     void smbus_test (void);
-
     void search_smbus_devices (void);
-    
+
+    double getTempIntern (void);
   private:
     void enable_vadj (bool enable);
     void error_handler (const char *err_msg);
@@ -68,6 +66,7 @@ class BoardCaptain {
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;
+    NTC_Thermistor* temp_internal;
     
 
     LT_SMBus *smbus;

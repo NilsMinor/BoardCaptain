@@ -72,6 +72,7 @@ class ZL2102 {
     ZL2102 (void);
     void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
     float getVin(void);
+    void setVout (float vout);
   private:
     uint8_t pmbus_addr;
     LT_PMBus *pmbus;
