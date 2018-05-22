@@ -11,23 +11,28 @@
 // IO definitions
 
 // Analog inputs
-#define ADC_12V_INPUT       AIN0
-#define ADC_VADJ            AIN1
-//#define ADC???              AIN2
-#define ADC_TEMP_1          AIN3
-#define ADC_TEMP_2          AIN4
-#define ADC_TEMP_INTERN     A5    
+#define ADC_12V_INPUT       A0    // Pin 
+#define ADC_VADJ            A1    // Pin
+#define ADC_TEMP_1          A3    // Pin
+#define ADC_TEMP_2          A4    // Pin
+#define ADC_TEMP_INTERN     A5    // Pin
+// A2 is N.C. 
+// Outputs  ////////////////////////////
+#define OUT_nLED_RG         4     // Pin 25    // LOW = red, HIGH = green      
+#define OUT_SET_VADJ_VS0    11    // MISO Pin 11
+#define OUT_SET_VADJ_VS1    6     // SCK Pin 9
+#define OUT_SET_VADJ_VS2    33    // MOSI Pin 10
+#define OUT_EN_VADJ_1       7     // Pin
+ // D5 is N.C.
 
-      
-
-// Outputs
-#define OUT_nLED_RG         4    // LOW = red, HIGH = green      
-#define OUT_SET_VADJ_VS0    1    //
-#define OUT_SET_VADJ_VS1    6    // 
-#define OUT_SET_VADJ_VS2    33   //
-#define OUT_EN_VADJ_1       26   //
+#define UART_TX             1     // Pin
+#define UART_RX             0     // Pin
+#define FAN_DRIVE_1         9     // Pin
+#define FAN_DRIVE_2         10    // Pin
 
 
+// Inputs #define FAN_TACH_1          7     // Pin
+#define FAN_TACH_2          1     // Pin
 // Communication
 // TX       D1
 // RX       D0
