@@ -30,8 +30,14 @@ BoardCaptain::BoardCaptain (void) {
     10,                 // Ave value (x readings)
     100                 // delay
   );
+
+  sense_enable ();
 }
 
+bool BoardCaptain::sense_enable (void) {
+
+
+}
 void BoardCaptain::smbus_test (void) {
   Serial.println (dcdc1.getVin());
   
