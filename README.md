@@ -10,13 +10,18 @@ Since this project is based on third party libraries I'd like to think that you 
  - 
 
 
- # Tasklist
+ ## Tasklist
 
- ## Power
-- [ ] Implement ZL2102 drivers for PMBus communication
- ## Communication
- 
- ## Function
+Short overview of things to be implemented in the future
+
+ ### Power
+ - [ ] Implement ZL2102 drivers for PMBus communication
+ ### Communication
+ - Implement CLI communication to get and set the following data
+ #### Function
+ - [ ] Set output voltages of the ZL2102 dcdc converters
+ - [ ] Read output current of the ZL2102 dcdc converters
+ - [ ] Read input voltage of the ZL2102 dcdc converters
 
 
 
