@@ -32,7 +32,15 @@ BoardCaptain::BoardCaptain (void) {
   );
 
   pinMode (SYSTEM_EN, INPUT);
-  sense_enable_input ();      // update 
+  sense_enable_input ( );      // update 
+
+  bc_cli = new BC_CLI ();
+  bc_cli->register_commands(); // register commands
+}
+
+void BoardCaptain::run_system (void) {
+  bc_cli->run_shell_interface ();   // run cli interface
+  
 }
 
 bool BoardCaptain::sense_enable_input (void) {

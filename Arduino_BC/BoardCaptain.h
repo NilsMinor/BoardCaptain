@@ -4,7 +4,7 @@
 
 #include "Arduino.h"
 #include "ZL2102.h"
-#include <CLI.h>
+#include "CLI.h"
 #include <NTC_Thermistor.h>
 
 
@@ -47,10 +47,13 @@ enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
 enum PARAMETER { VOLTAGE, CURRENT, POWER}; 
 
+class BC_CLI; // forward declaration
+
 class BoardCaptain {
   public:
     BoardCaptain ();
-    void  set_vadj (VADJ voltage);
+    void run_system (void);
+    void set_vadj (VADJ voltage);
     float get_temp (uint8_t source);
     float get_parameter (uint8_t psu, PARAMETER parameter);
     void state_led (LED_STATE state);
@@ -63,6 +66,8 @@ class BoardCaptain {
     void error_handler (const char *err_msg);
     void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0);
     bool sense_enable_input (void);
+
+    BC_CLI *bc_cli;
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;
