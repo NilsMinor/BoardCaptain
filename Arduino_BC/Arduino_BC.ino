@@ -24,7 +24,7 @@
  * 
  * Braun (X)(X) Rot
  * Weiß  (X)(X) Grün
- *       (X)(X)
+ *       (X)(X) Grauxa
  * Reset Gelb Pin 10
  * 
  */
