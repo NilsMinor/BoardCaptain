@@ -13,7 +13,7 @@ Since this project is based on third party libraries I'd like to think that you 
  # Tasklist
 
  ## Power
-    [ ] Implement ZL2102 drivers for PMBus communication
+- [ ] Implement ZL2102 drivers for PMBus communication
  ## Communication
  
  ## Function
