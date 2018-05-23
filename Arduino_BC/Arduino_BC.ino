@@ -45,6 +45,7 @@ void setup() {
   CLI.addCommand("help", helpFunc);
 
   CLI.addClient(Serial);
+  
    
 }
 
