@@ -74,14 +74,25 @@ float ZL2102::getVin(void) {
   float v = pmbus->readVin (pmbus_addr, false);
   return v;
 }
+float ZL2102::getFrequency (void) {
+  uint16_t temp_L11 = smbus->readWord(pmbus_addr, ZL2102_FREQUENCY);
+  return math_.lin11_to_float(temp_L11);;
+}
+
 void ZL2102::setVout (float vout) {
   if (vout > 0.55 && vout < 5.0) {
     pmbus->setVout (pmbus_addr, vout);
   }
 }
 
-void    lisAllParameter (void) {
 
-    
+void ZL2102::listAllParameter (void) {
+  Serial.print("Vin : "); Serial.print(getVin());
+  Serial.print(" Vout : "); Serial.print(getVout());  
+  Serial.print(" Iout : "); Serial.print(getIout());
+  Serial.print(" Pout : "); Serial.print(getPout());
+  Serial.print(" Freq : "); Serial.print(getFrequency());
+  Serial.print(" Temp : "); Serial.print(getTempearature());
+  Serial.println();
 }
 

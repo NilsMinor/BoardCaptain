@@ -51,7 +51,7 @@ void BoardCaptain::run_system (void) {
   //ntc1->measureTemperature();
   //ntc2->measureTemperature();
 
-  delay (100);
+  delay (200);
   
   if (sense_enable_input()) {
     state_led (BC_OK);
@@ -61,6 +61,8 @@ void BoardCaptain::run_system (void) {
     state_led (BC_ERROR);
     dcdc1.turnOff();
   }
+
+  dcdc1.listAllParameter();
  
 }
 bool BoardCaptain::sense_enable_input (void) {

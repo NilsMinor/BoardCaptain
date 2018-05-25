@@ -85,6 +85,7 @@ class ZL2102 {
     float   getVout (void);
     float   getIout (void);
     float   getPout (void);
+    float   getFrequency (void);
     float   getTempearature (void);
     
     void    setVout (float vout);
@@ -92,8 +93,7 @@ class ZL2102 {
     void    turnOn (void);
     void    turnOff (void);
 
-    void    lisAllParameter (void);
-   
+    void    listAllParameter (void);
   private:
     uint8_t pmbus_addr;
     LT_PMBus *pmbus;
