@@ -49,7 +49,7 @@
 #define ZL2102_READ_VIN                   READ_VIN                    // 0x88   L11
 #define ZL2102_READ_VOUT                  READ_VOUT                   // 0x8B   L16u
 #define ZL2102_READ_IOUT                  READ_IOUT                   // 0x8C   L11
-#define ZL2102_READ_TEMP                  READ_OTEMP                  // 0x8D   L11
+#define ZL2102_READ_TEMP                  0x8D                        // 0x8D   L11
 #define ZL2102_FREQUENCY                  0x95                        //        L11
 #define ZL2102_USER_CONFIG                MFR_CONFIG_ALL              //
 #define ZL2102_DDC_CONFIG                 0xD3                        //  
@@ -65,6 +65,8 @@
 #define ZL2102_CLOCK_RATE                 100000                      // ???
 
 
+#define ZL2102_TURN_ON_CFG               0b00000000
+
 
 
 class ZL2102 {
@@ -72,11 +74,20 @@ class ZL2102 {
     ZL2102 (void);
     void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
     float getVin(void);
+    float getTempearature (void);
+    float getVout (void);
     void setVout (float vout);
+    
+    void test (void);
   private:
     uint8_t pmbus_addr;
     LT_PMBus *pmbus;
     LT_SMBus *smbus;
+
+    uint16_t getWord16 (uint8_t cmd);
+    void setWord16 (uint8_t cmd, uint16_t bitmask);
+    uint8_t getByte8 (uint8_t cmd);
+    void setByte8 (uint8_t cmd, uint8_t bitmask);
 };
 
 #endif
