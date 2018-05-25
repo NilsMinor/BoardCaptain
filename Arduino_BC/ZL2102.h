@@ -90,10 +90,10 @@ class ZL2102 {
     LT_PMBus *pmbus;
     LT_SMBus *smbus;
 
-    uint16_t getWord16 (uint8_t cmd);
-    void setWord16 (uint8_t cmd, uint16_t bitmask);
-    uint8_t getByte8 (uint8_t cmd);
-    void setByte8 (uint8_t cmd, uint8_t bitmask);
+    uint8_t  getByte8   (uint8_t cmd);
+    uint16_t getWord16  (uint8_t cmd);
+    void     setWord16  (uint8_t cmd, uint16_t bitmask);
+    void     setByte8   (uint8_t cmd, uint8_t bitmask);
 };
 
 #endif

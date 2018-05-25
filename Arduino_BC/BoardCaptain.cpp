@@ -19,17 +19,9 @@ BoardCaptain::BoardCaptain (void) {
   smbus = new LT_SMBusNoPec();
   pmbus = new LT_PMBus(smbus);
 
-  dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
+  dcdc1.init (pmbus, smbus, ZL2102_ADDR_2);
 
-  temp_internal = new NTC_Thermistor(
-    ADC_TEMP_INTERN,    // ADC Pin
-    10500,              // Reference resistance
-    15000,              // Resistance at
-    25,                 // nominal temperature
-    3950,               // B value
-    10,                 // Ave value (x readings)
-    100                 // delay
-  );
+  initTemperatureSensors( );
 
   pinMode (SYSTEM_EN, INPUT);
   sense_enable_input ( );      // update
@@ -37,18 +29,36 @@ BoardCaptain::BoardCaptain (void) {
   bc_cli = new BC_CLI ();
   bc_cli->register_commands(); // register commands
 }
+void BoardCaptain::initTemperatureSensors (void) {
+
+  ntc1 = new NTC ();
+  ntc2 = new NTC ();
+  ntc_int = new NTC ();
+  
+  ntc1->init_103AT2(ADC_TEMP_1, REF_RES, 10);
+  ntc2->init_NCP15XW(ADC_TEMP_2, REF_RES, 10);
+  ntc2->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
+}
 
 void BoardCaptain::run_system (void) {
   bc_cli->run_shell_interface ();   // run cli interface
-  if (sense_enable_input()) {
+
+  ntc1->measureTemperature();
+  
+  /*if (sense_enable_input()) {
     state_led (BC_OK);
     dcdc1.turnOn();
   }
   else {
     state_led (BC_ERROR);
     dcdc1.turnOff();
-  }
+  }*/
 
+  //Serial.print (getTempFan1());
+  //Serial.print (" ");
+  //Serial.println (getTempFan2());
+  
+  //Serial.println(ntc1->getTemperature(),8);
   delay(200); 
 }
 bool BoardCaptain::sense_enable_input (void) {
@@ -105,14 +115,19 @@ void BoardCaptain::set_vadj (VADJ voltage) {
       break;
   }
 }
-
 void  BoardCaptain::state_led (LED_STATE state) {
   if (state == BC_ERROR)    digitalWrite (OUT_nLED_RG, LOW);
   else if (state == BC_OK)  digitalWrite (OUT_nLED_RG, HIGH);
 }
-
 double BoardCaptain::getTempIntern (void) {
-  return temp_internal->readCelsius();
+  return ntc_int->getTemperature();
+}
+
+float BoardCaptain::getTempFan1 (void) {
+  return ntc1->getTemperature();
+}
+float BoardCaptain::getTempFan2 (void) {
+  return ntc1->getTemperature();
 }
 
 

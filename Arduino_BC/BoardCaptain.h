@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "ZL2102.h"
 #include "CLI.h"
-#include <NTC_Thermistor.h>
+#include "ntc.h"
 
 
 // IO definitions
@@ -43,6 +43,9 @@
 #define UART_TX             1     // Pin 21
 #define UART_RX             0     // Pin 20   
 
+
+
+
 enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
 enum PARAMETER { VOLTAGE, CURRENT, POWER}; 
@@ -59,17 +62,23 @@ class BoardCaptain {
     void search_smbus_devices (void);
 
     double getTempIntern (void);
+    float getTempFan1 (void);
+    float getTempFan2 (void);
   private:
     void enable_vadj (bool enable);
     void error_handler (const char *err_msg);
     void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0);
     bool sense_enable_input (void);
+    void initTemperatureSensors (void);
 
     BC_CLI *bc_cli;
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;
-    NTC_Thermistor* temp_internal;
+
+    NTC *ntc1;
+    NTC *ntc2;
+    NTC *ntc_int;
     
     bool system_enabled;
     LT_SMBus *smbus;
