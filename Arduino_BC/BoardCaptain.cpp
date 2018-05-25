@@ -48,13 +48,12 @@ void BoardCaptain::initTemperatureSensors (void) {
 }
 
 void BoardCaptain::run_system (void) {
-  //bc_cli->run_shell_interface ();   // run cli interface
+  bc_cli->run_shell_interface ();   // run cli interface
 
-  //ntc1->measureTemperature();
-  //ntc2->measureTemperature();
+  ntc1->measureTemperature();
+  ntc2->measureTemperature();
 
-  delay (200);
-  Serial.println(sense_input_voltage());
+  /*Serial.println(sense_input_voltage());
   if (sense_enable_input()) {
     state_led (BC_OK);
     dcdc1.turnOn();
@@ -63,7 +62,7 @@ void BoardCaptain::run_system (void) {
     state_led (BC_ERROR);
     dcdc1.turnOff();
   }
-
+*/
   //dcdc1.listAllParameter();
  
 }
@@ -128,11 +127,10 @@ float BoardCaptain::sense_input_voltage (void) {
   // Voltage divider 100k to 20k to 12V = factor 6
   return ((analogRead(ADC_12V_INPUT)/1023.) * ADC_REF_VOLTAGE * 6) ;
 }
-
 double BoardCaptain::getTempIntern (void) {
+  // Depends on DCDC1 to be 5.0V
   return ntc_int->getTemperature();
 }
-
 float BoardCaptain::getTempFan1 (void) {
   return ntc1->getTemperature();
 }

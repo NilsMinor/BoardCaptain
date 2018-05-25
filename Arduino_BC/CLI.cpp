@@ -31,7 +31,6 @@ BC_CLI::BC_CLI ( ) {
   
   shell_init(shell_reader, shell_writer, 0);
 }
-
 int BC_CLI::command_test(int argc, char** argv){
   int i;
   shell_printf("Received %d arguments for test command\r\n",argc);

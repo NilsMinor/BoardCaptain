@@ -12,6 +12,20 @@
 #include <Shell.h>
 
 
+
+/* PSU 0 DCDC0
+ * PSU 1 DCDC1 
+ * PSU 2 DCDC2
+ * PSU 3 Vadj
+ * 
+ * COMMAND  Parameter  PSU     Value
+ * set      V         [0-3]     [0-2] 0| 0.5-5
+ *
+ *
+ *
+ *
+ */
+ 
 class BC_CLI  {
   public:
     BC_CLI ( );

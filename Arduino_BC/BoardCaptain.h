@@ -36,12 +36,8 @@
 #define SYSTEM_EN           13    // Pin 32   // Enable system, active low pulled down on module
 
 // Communication
-// TX       D1
-// RX       D0
-// USB+     USB_P (Pin 4)
-// USB-     USB_N (Pin 3)
-#define SMBUS_SDA           19
-#define SMBUS_SCL           18    
+#define SMBUS_SDA           19    // Pin 19
+#define SMBUS_SCL           18    // Pin 18
 #define UART_TX             1     // Pin 21
 #define UART_RX             0     // Pin 20   
 

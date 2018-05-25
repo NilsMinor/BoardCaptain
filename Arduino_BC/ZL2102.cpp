@@ -85,7 +85,6 @@ void ZL2102::setVout (float vout) {
   }
 }
 
-
 void ZL2102::listAllParameter (void) {
   Serial.print("Vin : "); Serial.print(getVin());
   Serial.print(" Vout : "); Serial.print(getVout());  
