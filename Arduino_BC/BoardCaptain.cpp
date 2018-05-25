@@ -15,6 +15,8 @@ BoardCaptain::BoardCaptain (void) {
   pinMode(OUT_SET_VADJ_VS1, OUTPUT);
   pinMode(OUT_SET_VADJ_VS2, OUTPUT);
   pinMode(OUT_EN_VADJ_1,    OUTPUT);
+
+  pinMode(ADC_12V_INPUT, INPUT);
  
   enable_vadj (false);                // disable adjustable voltage controller
 
@@ -52,7 +54,7 @@ void BoardCaptain::run_system (void) {
   //ntc2->measureTemperature();
 
   delay (200);
-  
+  Serial.println(sense_input_voltage());
   if (sense_enable_input()) {
     state_led (BC_OK);
     dcdc1.turnOn();
@@ -62,7 +64,7 @@ void BoardCaptain::run_system (void) {
     dcdc1.turnOff();
   }
 
-  dcdc1.listAllParameter();
+  //dcdc1.listAllParameter();
  
 }
 bool BoardCaptain::sense_enable_input (void) {
@@ -97,7 +99,6 @@ void BoardCaptain::enable_vadj (bool enable) {
   if (enable) digitalWrite (OUT_EN_VADJ_1, HIGH);
   else        digitalWrite (OUT_EN_VADJ_1, LOW);
 }
-// Config adjustable voltage
 void BoardCaptain::set_vadj (VADJ voltage) {
   switch (voltage) {
     case (V_3V3): vadj_set_outputs(LOW, LOW, LOW);
@@ -123,6 +124,11 @@ void  BoardCaptain::state_led (LED_STATE state) {
   if (state == BC_ERROR)    digitalWrite (OUT_nLED_RG, LOW);
   else if (state == BC_OK)  digitalWrite (OUT_nLED_RG, HIGH);
 }
+float BoardCaptain::sense_input_voltage (void) {
+  // Voltage divider 100k to 20k to 12V = factor 6
+  return ((analogRead(ADC_12V_INPUT)/1023.) * ADC_REF_VOLTAGE * 6) ;
+}
+
 double BoardCaptain::getTempIntern (void) {
   return ntc_int->getTemperature();
 }

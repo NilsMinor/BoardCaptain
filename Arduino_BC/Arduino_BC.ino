@@ -35,6 +35,7 @@ BoardCaptain* BC;
 void setup() {
   BC = new BoardCaptain ();
   Serial.begin (115200);    // Init Serial interface 
+  analogReference(EXTERNAL);
 }
 
 void loop() {

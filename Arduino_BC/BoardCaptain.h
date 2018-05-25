@@ -16,6 +16,7 @@
 #define ADC_TEMP_1          A3    // Pin
 #define ADC_TEMP_2          A4    // Pin
 #define ADC_TEMP_INTERN     A5    // Pin
+#define ADC_REF_VOLTAGE     2.5
 // A2 is N.C. 
 // Outputs  ////////////////////////////
 #define OUT_nLED_RG         4     // Pin 25    // LOW = red, HIGH = green      
@@ -67,6 +68,7 @@ class BoardCaptain {
     void error_handler (const char *err_msg);
     void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0);
     bool sense_enable_input (void);
+    float sense_input_voltage (void);
     void initTemperatureSensors (void);
 
     BC_CLI *bc_cli;
