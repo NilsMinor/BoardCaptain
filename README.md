@@ -4,8 +4,7 @@ This project is a side project for my master thesis where I have to build a FPGA
 
 The BoardCaptain PCB is 48mm x 48mm with castleated vias on the left and right side.
 
-<img src="img/3d_no_components.png" width="400"/>
-<img src="img/3d_components.png " width="400"/>
+<img src="img/3d_no_components.png" width="400"/> <img src="img/3d_components.png " width="400"/>
 
 ## Third party libraries
 
