@@ -34,14 +34,10 @@ BoardCaptain BC;
 
 void setup() {
   Serial.begin (115200);    // Init Serial interface 
-   BC.smbus_test();
+   //BC.smbus_test();
 }
 
 void loop() {
-  BC.state_led (BC_OK);
-  delay(100);
-  BC.state_led (BC_ERROR);
-  delay(100);
  
   BC.run_system ();
  

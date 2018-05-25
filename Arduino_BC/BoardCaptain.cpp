@@ -40,22 +40,27 @@ BoardCaptain::BoardCaptain (void) {
 
 void BoardCaptain::run_system (void) {
   bc_cli->run_shell_interface ();   // run cli interface
+  if (sense_enable_input()) {
+    state_led (BC_OK);
+    dcdc1.turnOn();
+  }
+  else {
+    state_led (BC_ERROR);
+    dcdc1.turnOff();
+  }
 
+  delay(200); 
 }
 bool BoardCaptain::sense_enable_input (void) {
   if (digitalRead (SYSTEM_EN) == HIGH) {
     system_enabled = false;
-    Serial.println("Not enabled");
   }
   else {
     system_enabled = true;
-    Serial.println("enabled");
   }
   return system_enabled;
 }
-void BoardCaptain::smbus_test (void) {
-  dcdc1.test();
-}
+
 void BoardCaptain::search_smbus_devices (void) {
   uint8_t *addr;
   addr = smbus->probe(0);
@@ -100,10 +105,7 @@ void BoardCaptain::set_vadj (VADJ voltage) {
       break;
   }
 }
-float BoardCaptain::get_parameter (uint8_t psu, PARAMETER parameter) {
 
-
-}
 void  BoardCaptain::state_led (LED_STATE state) {
   if (state == BC_ERROR)    digitalWrite (OUT_nLED_RG, LOW);
   else if (state == BC_OK)  digitalWrite (OUT_nLED_RG, HIGH);

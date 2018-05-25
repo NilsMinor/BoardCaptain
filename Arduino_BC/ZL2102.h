@@ -65,7 +65,8 @@
 #define ZL2102_CLOCK_RATE                 100000                      // ???
 
 
-#define ZL2102_TURN_ON_CFG               0b00000000
+#define ZL2102_TURN_ON_CFG_ON             0b00000000
+#define ZL2102_TURN_ON_CFG_OFF            0b01010001
 
 
 
@@ -73,12 +74,17 @@ class ZL2102 {
   public:
     ZL2102 (void);
     void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
-    float getVin(void);
-    float getTempearature (void);
-    float getVout (void);
-    void setVout (float vout);
+    float   getVin(void);
+    float   getVout (void);
+    float   getIout (void);
+    float   getPout (void);
+    float   getTempearature (void);
     
-    void test (void);
+    void    setVout (float vout);
+    
+    void    turnOn (void);
+    void    turnOff (void);
+   
   private:
     uint8_t pmbus_addr;
     LT_PMBus *pmbus;
