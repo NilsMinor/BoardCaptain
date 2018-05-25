@@ -44,22 +44,19 @@ void BoardCaptain::run_system (void) {
   bc_cli->run_shell_interface ();   // run cli interface
 
   ntc1->measureTemperature();
+  ntc2->measureTemperature();
+
+  delay (100);
   
-  /*if (sense_enable_input()) {
+  if (sense_enable_input()) {
     state_led (BC_OK);
     dcdc1.turnOn();
   }
   else {
     state_led (BC_ERROR);
     dcdc1.turnOff();
-  }*/
-
-  //Serial.print (getTempFan1());
-  //Serial.print (" ");
-  //Serial.println (getTempFan2());
-  
-  //Serial.println(ntc1->getTemperature(),8);
-  delay(200); 
+  }
+ 
 }
 bool BoardCaptain::sense_enable_input (void) {
   if (digitalRead (SYSTEM_EN) == HIGH) {

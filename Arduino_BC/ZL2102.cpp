@@ -22,14 +22,15 @@ void ZL2102::turnOn (void) {
   Serial.println("Turn On");
   delay(10);
   setByte8 (ZL2102_ON_OFF_CFG, ZL2102_TURN_ON_CFG_ON);
-  pmbus->setVout (pmbus_addr, 5);
+  
   Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
 }
 void ZL2102::turnOff (void) {
   Serial.println("Turn Off");
   delay(10);
+  
   setByte8 (ZL2102_ON_OFF_CFG, ZL2102_TURN_ON_CFG_OFF);
-  Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
+ // Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
 }
 
 uint16_t ZL2102::getWord16 (uint8_t cmd) {
@@ -69,7 +70,14 @@ float ZL2102::getVin(void) {
   float v = pmbus->readVin (pmbus_addr, false);
   return v;
 }
-void setVout (float vout) {
-  
+void ZL2102::setVout (float vout) {
+  if (vout > 0.55 && vout < 5.0) {
+    pmbus->setVout (pmbus_addr, vout);
+  }
+}
+
+void    lisAllParameter (void) {
+
+    
 }
 

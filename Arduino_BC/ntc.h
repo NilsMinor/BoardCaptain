@@ -39,9 +39,9 @@
 #define REF_TEMP            25      // Nominal temperature
 #define RES_FREQ            10      // Measurment Frequency
 
-
 #define CEL_TO_KEL(c) (double)(c+273.15)
 #define KEL_TO_CEL(c) (double)(c-273.15)
+
 class NTC {
   public:
     NTC (void);

@@ -84,6 +84,8 @@ class ZL2102 {
     
     void    turnOn (void);
     void    turnOff (void);
+
+    void    lisAllParameter (void);
    
   private:
     uint8_t pmbus_addr;
