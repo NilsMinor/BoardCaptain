@@ -22,7 +22,7 @@ void ZL2102::turnOn (void) {
   Serial.println("Turn On");
   delay(10);
   setByte8 (ZL2102_ON_OFF_CFG, ZL2102_TURN_ON_CFG_ON);
-  
+  setVout(3.3);
   Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
 }
 void ZL2102::turnOff (void) {
