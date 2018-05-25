@@ -1,9 +1,15 @@
 
 /* Library for Renesas ZL2102 6A Digital Integrated Synchronous Step-Down DC/DC
-   https://www.intersil.com/content/dam/Intersil/documents/zl21/zl2102.pdf
-
-   Nils Minor 11.03.2018
-*/
+ *  https://www.intersil.com/content/dam/Intersil/documents/zl21/zl2102.pdf
+ *
+ *  Nils Minor 11.03.2018
+ *  
+ *  
+ *  
+ *  
+ * TODO:
+ * - implemnt sequencing and soft on&off
+ */
 
 #ifndef _ZL2102_H_
 #define _ZL2102_H_
@@ -74,6 +80,7 @@ class ZL2102 {
   public:
     ZL2102 (void);
     void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
+    void    configure (void);
     float   getVin(void);
     float   getVout (void);
     float   getIout (void);

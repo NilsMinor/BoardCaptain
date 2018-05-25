@@ -30,16 +30,16 @@
  */
 
 // IO Defines
-BoardCaptain BC;
+BoardCaptain* BC;
 
 void setup() {
+  BC = new BoardCaptain ();
   Serial.begin (115200);    // Init Serial interface 
-   //BC.smbus_test();
 }
 
 void loop() {
  
-  BC.run_system ();
+  BC->run_system ();
  
 }
 

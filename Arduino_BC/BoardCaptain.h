@@ -23,6 +23,7 @@
 #define OUT_SET_VADJ_VS1    6     // SCK Pin 9
 #define OUT_SET_VADJ_VS2    33    // MOSI Pin 10
 #define OUT_EN_VADJ_1       7     // Pin
+
  // D5 is N.C.
  
 #define FAN_DRIVE_1         9     // Pin 29   // PWM Drive for fan 1
@@ -42,9 +43,6 @@
 #define SMBUS_SCL           18    
 #define UART_TX             1     // Pin 21
 #define UART_RX             0     // Pin 20   
-
-
-
 
 enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI

@@ -9,17 +9,20 @@
 BoardCaptain::BoardCaptain (void) {
 
   pinMode (OUT_nLED_RG, OUTPUT);
+  state_led (BC_ERROR);
 
   pinMode(OUT_SET_VADJ_VS0, OUTPUT);
   pinMode(OUT_SET_VADJ_VS1, OUTPUT);
   pinMode(OUT_SET_VADJ_VS2, OUTPUT);
   pinMode(OUT_EN_VADJ_1,    OUTPUT);
+ 
   enable_vadj (false);                // disable adjustable voltage controller
 
   smbus = new LT_SMBusNoPec();
   pmbus = new LT_PMBus(smbus);
 
   dcdc1.init (pmbus, smbus, ZL2102_ADDR_2);
+  dcdc1.configure ();
 
   initTemperatureSensors( );
 
@@ -28,6 +31,8 @@ BoardCaptain::BoardCaptain (void) {
 
   bc_cli = new BC_CLI ();
   bc_cli->register_commands(); // register commands
+
+  state_led (BC_OK);
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -41,10 +46,10 @@ void BoardCaptain::initTemperatureSensors (void) {
 }
 
 void BoardCaptain::run_system (void) {
-  bc_cli->run_shell_interface ();   // run cli interface
+  //bc_cli->run_shell_interface ();   // run cli interface
 
-  ntc1->measureTemperature();
-  ntc2->measureTemperature();
+  //ntc1->measureTemperature();
+  //ntc2->measureTemperature();
 
   delay (100);
   

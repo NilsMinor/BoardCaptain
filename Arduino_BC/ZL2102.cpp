@@ -18,19 +18,23 @@ ZL2102::ZL2102 (void) {
   smbus       = NULL;
 }
 
-void ZL2102::turnOn (void) {
-  Serial.println("Turn On");
-  delay(10);
-  setByte8 (ZL2102_ON_OFF_CFG, ZL2102_TURN_ON_CFG_ON);
+void ZL2102::configure (void) {
+  // Configure ON_OFF_CONFIG register
+  // Device starts from OPERATION command only
+  // Turn off the output immediately
+  setByte8 (ZL2102_ON_OFF_CFG, 0b00011001);
+  turnOff ();
   setVout(3.3);
-  Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
+  
+}
+
+void ZL2102::turnOn (void) {
+  // On & margin state nominal
+  setByte8 (ZL2102_OPERATION,  0b10000100);
 }
 void ZL2102::turnOff (void) {
-  Serial.println("Turn Off");
-  delay(10);
-  
-  setByte8 (ZL2102_ON_OFF_CFG, ZL2102_TURN_ON_CFG_OFF);
- // Serial.println(getByte8(ZL2102_ON_OFF_CFG), BIN);
+  // Immediate off & margin state off
+  setByte8 (ZL2102_OPERATION,  0b00000100);
 }
 
 uint16_t ZL2102::getWord16 (uint8_t cmd) {
