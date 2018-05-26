@@ -79,10 +79,17 @@ float ZL2102::getFrequency (void) {
   return math_.lin11_to_float(temp_L11);;
 }
 
-void ZL2102::setVout (float vout) {
-  if (vout > 0.55 && vout < 5.0) {
-    pmbus->setVout (pmbus_addr, vout);
+bool ZL2102::setVout (float vout) {
+  if (vout < 0.55) {
+    turnOff ();
+    return true;
   }
+  else if (vout > 0.55 && vout < 5.0) {
+    pmbus->setVout (pmbus_addr, vout);
+    return true;
+  }
+
+  return false;
 }
 
 void ZL2102::listAllParameter (void) {

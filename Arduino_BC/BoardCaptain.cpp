@@ -23,8 +23,13 @@ BoardCaptain::BoardCaptain (void) {
   smbus = new LT_SMBusNoPec();
   pmbus = new LT_PMBus(smbus);
 
-  dcdc1.init (pmbus, smbus, ZL2102_ADDR_2);
+  dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
+  dcdc2.init (pmbus, smbus, ZL2102_ADDR_2);
+  dcdc3.init (pmbus, smbus, ZL2102_ADDR_3);
+  
   dcdc1.configure ();
+  dcdc2.configure ();
+  dcdc3.configure ();
 
   initTemperatureSensors( );
 
@@ -33,8 +38,7 @@ BoardCaptain::BoardCaptain (void) {
 
   //bc_cli = new BC_CLI ();
   //  bc_cli->register_commands(); // register commands
-
-  init_shell();
+  //init_shell();
 
   state_led (BC_OK);
 }
@@ -49,7 +53,7 @@ void BoardCaptain::initTemperatureSensors (void) {
   ntc2->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
 }
 void BoardCaptain::run_system (void) {
-  run_shell_interface ();
+  //run_shell_interface ();
 
   ntc1->measureTemperature();
   ntc2->measureTemperature();

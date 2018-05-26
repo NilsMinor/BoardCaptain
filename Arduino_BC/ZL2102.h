@@ -88,7 +88,7 @@ class ZL2102 {
     float   getFrequency (void);
     float   getTempearature (void);
     
-    void    setVout (float vout);
+    bool    setVout (float vout);
     
     void    turnOn (void);
     void    turnOff (void);

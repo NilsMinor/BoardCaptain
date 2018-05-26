@@ -1,13 +1,10 @@
+//#include "Shell.h"// https://github.com/geekfactory/Shell
+#include "Arduino.h"
+#include "ZL2102.h"
+#include "ntc.h"
 
 #ifndef _BOARD_CAPTAI_H_
 #define _BOARD_CAPTAI_H_
-
-#include "Arduino.h"
-#include "ZL2102.h"
-#include <Shell.h>     // https://github.com/geekfactory/Shell
-#include "ntc.h"
-
-
 
 // IO definitions
 
@@ -46,8 +43,6 @@ enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
 enum PARAMETER { VOLTAGE, CURRENT, POWER}; 
 
-class BC_CLI; // forward declaration
-
 class BoardCaptain {
   public:
     BoardCaptain ();
@@ -67,15 +62,17 @@ class BoardCaptain {
     bool sense_enable_input (void);
     float sense_input_voltage (void);
     void initTemperatureSensors (void);
-    void init_shell (void);
-    void run_shell_interface (void);
-    static int command_test(int argc, char** argv);
-    void register_bc_command (const char* str, float (*getter),void (*setter)(float));
+    //void init_shell (void);
+    //void run_shell_interface (void);
+    //bool setter_helper (char** argv);
+    //int command_set (int argc, char** argv);
+    //int command_get (int argc, char** argv);
+    
 
-    BC_CLI *bc_cli;
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;
+  
 
     NTC *ntc1;
     NTC *ntc2;

@@ -1,7 +1,23 @@
+
+
 #include "BoardCaptain.h"
 
 
-static int shell_reader(char * data) {
+/* PSU 0 DCDC0
+ * PSU 1 DCDC1 
+ * PSU 2 DCDC2
+ * PSU 3 Vadj
+ * 
+ * COMMAND  Parameter    PSU       Value
+ * set      VOUT         [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
+ * 
+ *
+ *
+ *
+ */
+/*
+
+static int  shell_reader(char * data) {
   // Wrapper for Serial.read() method
   if (Serial.available()) {
     *data = Serial.read();
@@ -15,28 +31,59 @@ static void shell_writer(char data) {
 }
 
 void BoardCaptain::run_shell_interface (void) {
-  shell_task();
+  shell.shell_task();
 }
 
-void BoardCaptain::register_bc_command (const char* str, float (*getter),void (*setter)(float)) {
-  shell_register(command_test, str);
+
+
+bool BoardCaptain::setter_helper (char** argv) {
+  
+  int PSU = String(argv[2]).toInt ();
+  float value = String (argv[3]).toFloat();
+  bool error = true;
+  
+  if (argv[1] == "VOUT") {
+    switch (PSU) {
+     // case 0 : error = dcdc1.setVout (value); break;
+     // case 1 : error = dcdc2.setVout (value); break;
+     // case 2 : error = dcdc3.setVout (value); break;
+      //*processed = true;  // command was processed
+      return error;
+
+      Serial.print ("PSU : ");Serial.print (PSU);
+      Serial.print (" Voltage : ");Serial.print (value);
+    }
+  }
+  return false;
+}
+int BoardCaptain::command_set (int argc, char** argv) {
+ bool processed = false;
+ bool error = true;
+
+  if (argc == 4) {
+    if (argv[1] == "VOUT") {
+       //error = setter_helper (argv);
+       //dcdc1.setVout (3.3);
+    }
+    return SHELL_RET_SUCCESS;
+  }
+  
+  return SHELL_RET_FAILURE;
+}
+
+void BoardCaptain::test (void) {
+  Serial.println("Hello callback");
+}
+static int command_get (int argc, char** argv) {
+  
 }
 
 void BoardCaptain::init_shell (void) {
-  shell_init(shell_reader, shell_writer, 0);
-  shell_register(command_test, PSTR("test"));
-  //register_bc_command ("hallo",NULL,NULL);
+  shell.shell_init(shell_reader, shell_writer, 0); 
+  shell.shell_calback (command_get);
+  //shell.shell_register2(command_get, PSTR("set"));
+  //shell_register(command_get, PSTR("get"));
 }
-int BoardCaptain::command_test(int argc, char** argv){
-  int i;
-  shell_printf("Received %d arguments for test command\r\n",argc);
+*/
 
-  // Print each argument with string lenghts
-  for(i=0; i<argc; i++)
-  {
-    // Print formatted text to terminal
-    shell_printf("%d - \"%s\" [len:%d]\r\n", i, argv[i], strlen(argv[i]) );
-  }
 
-  return SHELL_RET_SUCCESS;
-}
