@@ -4,8 +4,9 @@
 
 #include "Arduino.h"
 #include "ZL2102.h"
-#include "CLI.h"
+#include <Shell.h>     // https://github.com/geekfactory/Shell
 #include "ntc.h"
+
 
 
 // IO definitions
@@ -66,6 +67,10 @@ class BoardCaptain {
     bool sense_enable_input (void);
     float sense_input_voltage (void);
     void initTemperatureSensors (void);
+    void init_shell (void);
+    void run_shell_interface (void);
+    static int command_test(int argc, char** argv);
+    void register_bc_command (const char* str, float (*getter),void (*setter)(float));
 
     BC_CLI *bc_cli;
     ZL2102 dcdc1;

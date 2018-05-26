@@ -31,8 +31,10 @@ BoardCaptain::BoardCaptain (void) {
   pinMode (SYSTEM_EN, INPUT);
   sense_enable_input ( );      // update
 
-  bc_cli = new BC_CLI ();
-  bc_cli->register_commands(); // register commands
+  //bc_cli = new BC_CLI ();
+  //  bc_cli->register_commands(); // register commands
+
+  init_shell();
 
   state_led (BC_OK);
 }
@@ -46,9 +48,8 @@ void BoardCaptain::initTemperatureSensors (void) {
   ntc2->init_NCP15XW(ADC_TEMP_2, REF_RES, 10);
   ntc2->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
 }
-
 void BoardCaptain::run_system (void) {
-  bc_cli->run_shell_interface ();   // run cli interface
+  run_shell_interface ();
 
   ntc1->measureTemperature();
   ntc2->measureTemperature();
@@ -75,7 +76,6 @@ bool BoardCaptain::sense_enable_input (void) {
   }
   return system_enabled;
 }
-
 void BoardCaptain::search_smbus_devices (void) {
   uint8_t *addr;
   addr = smbus->probe(0);
@@ -84,7 +84,6 @@ void BoardCaptain::search_smbus_devices (void) {
     Serial.println(*addr++, HEX);
   }
 }
-
 void BoardCaptain::error_handler (const char *err_msg) {
   Serial.print ("Error: ");
   Serial.println(err_msg);

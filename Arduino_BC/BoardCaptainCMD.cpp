@@ -1,5 +1,4 @@
-
-#include "CLI.h"
+#include "BoardCaptain.h"
 
 
 static int shell_reader(char * data) {
@@ -15,23 +14,20 @@ static void shell_writer(char data) {
   Serial.write(data);
 }
 
-void BC_CLI::run_shell_interface (void) {
+void BoardCaptain::run_shell_interface (void) {
   shell_task();
 }
-static void BC_CLI::register_commands (void) {
-  shell_register(command_test, PSTR("test"));
-}
 
-static void BC_CLI::register_bc_command (const char* str, float (*getter),void (*setter)(float)) {
+void BoardCaptain::register_bc_command (const char* str, float (*getter),void (*setter)(float)) {
   shell_register(command_test, str);
-  
 }
 
-BC_CLI::BC_CLI ( ) {
-  
+void BoardCaptain::init_shell (void) {
   shell_init(shell_reader, shell_writer, 0);
+  shell_register(command_test, PSTR("test"));
+  //register_bc_command ("hallo",NULL,NULL);
 }
-int BC_CLI::command_test(int argc, char** argv){
+int BoardCaptain::command_test(int argc, char** argv){
   int i;
   shell_printf("Received %d arguments for test command\r\n",argc);
 
@@ -44,4 +40,3 @@ int BC_CLI::command_test(int argc, char** argv){
 
   return SHELL_RET_SUCCESS;
 }
-
