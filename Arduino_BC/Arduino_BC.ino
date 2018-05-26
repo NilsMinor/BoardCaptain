@@ -40,7 +40,8 @@ void setup() {
   shell_init(shell_reader, shell_writer, 0);
 
   // Add commands to the shell
-  shell_register(command_test, PSTR("test"));
+  shell_register(command_set, PSTR("set"));
+  shell_register(command_get, PSTR("get"));
 }
 
 void loop() {
@@ -51,33 +52,20 @@ void loop() {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-int command_test(int argc, char** argv)
-{
-  int i;
-
-  shell_println("-----------------------------------------------");
-  shell_println("SHELL DEBUG / TEST UTILITY");
-  shell_println("-----------------------------------------------");
-  shell_println("");
-  shell_printf("Received %d arguments for test command\r\n",argc);
-
-  // Print each argument with string lenghts
-  for(i=0; i<argc; i++)
-  {
-    // Print formatted text to terminal
-    shell_printf("%d - \"%s\" [len:%d]\r\n", i, argv[i], strlen(argv[i]) );
-  }
-
-  return SHELL_RET_SUCCESS;
-}
-
-/**
- * Function to read data from serial port
- * Functions to read from physical media should use this prototype:
- * int my_reader_function(char * data)
+/* PSU 0 DCDC0
+ * PSU 1 DCDC1 
+ * PSU 2 DCDC2
+ * PSU 3 Vadj
+ * 
+ * COMMAND  Parameter    PSU       Value
+ * set      VOUT         [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
+ * 
+ *
+ *
+ *
  */
-int shell_reader(char * data)
-{
+ 
+int shell_reader(char * data) {
   // Wrapper for Serial.read() method
   if (Serial.available()) {
     *data = Serial.read();
@@ -85,16 +73,37 @@ int shell_reader(char * data)
   }
   return 0;
 }
-
-/**
- * Function to write data to serial port
- * Functions to write to physical media should use this prototype:
- * void my_writer_function(char data)
- */
-void shell_writer(char data)
-{
+void shell_writer(char data){
   // Wrapper for Serial.write() method
   Serial.write(data);
+}
+
+bool setter_helper (char** argv) {
+  
+  int psu = String(argv[2]).toInt ();
+  float value = String (argv[3]).toFloat();
+  bool error = true;
+  
+  if (!strcmp(argv[1], (const char *) "VOUT")) {
+    error = BC->setVout (psu, value);
+  }
+  return false;
+}
+int command_set (int argc, char** argv) {
+ bool processed = false;
+ bool error = true;
+
+  if (argc == 4) {
+     error = setter_helper (argv);
+     if (!error)
+      return SHELL_RET_SUCCESS;
+  }
+  return SHELL_RET_FAILURE;
+}
+
+
+static int command_get (int argc, char** argv) {
+  
 }
 
 

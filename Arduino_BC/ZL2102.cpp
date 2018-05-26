@@ -81,7 +81,7 @@ float ZL2102::getFrequency (void) {
 
 bool ZL2102::setVout (float vout) {
   if (vout < 0.55) {
-    turnOff ();
+    //turnOff ();
     return true;
   }
   else if (vout > 0.55 && vout < 5.0) {

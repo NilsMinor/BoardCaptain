@@ -50,25 +50,20 @@ class BoardCaptain {
     void set_vadj (VADJ voltage);
     float get_temp (uint8_t source);
     void state_led (LED_STATE state);
-    void search_smbus_devices (void);
-
+    
+    bool setVout (uint8_t psu, float voltage);
     double getTempIntern (void);
     float getTempFan1 (void);
     float getTempFan2 (void);
   private:
+  void search_smbus_devices (void);
     void enable_vadj (bool enable);
     void error_handler (const char *err_msg);
     void vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0);
     bool sense_enable_input (void);
     float sense_input_voltage (void);
     void initTemperatureSensors (void);
-    //void init_shell (void);
-    //void run_shell_interface (void);
-    //bool setter_helper (char** argv);
-    //int command_set (int argc, char** argv);
-    //int command_get (int argc, char** argv);
     
-
     ZL2102 dcdc1;
     ZL2102 dcdc2;
     ZL2102 dcdc3;

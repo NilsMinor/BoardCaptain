@@ -41,6 +41,7 @@ BoardCaptain::BoardCaptain (void) {
   //init_shell();
 
   state_led (BC_OK);
+  dcdc2.turnOn();
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -53,23 +54,33 @@ void BoardCaptain::initTemperatureSensors (void) {
   ntc2->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
 }
 void BoardCaptain::run_system (void) {
-  //run_shell_interface ();
-
+ 
   ntc1->measureTemperature();
   ntc2->measureTemperature();
 
-  /*Serial.println(sense_input_voltage());
+  //Serial.println(sense_input_voltage());
   if (sense_enable_input()) {
     state_led (BC_OK);
-    dcdc1.turnOn();
+    //dcdc2.turnOn();
   }
   else {
     state_led (BC_ERROR);
-    dcdc1.turnOff();
+    dcdc2.turnOff();
   }
-*/
+
   //dcdc1.listAllParameter();
  
+}
+bool BoardCaptain::setVout (uint8_t psu, float voltage) {
+  bool error = false;
+  switch (psu) {
+      case 0 : error = dcdc1.setVout (voltage); break;
+      case 1 : error = dcdc2.setVout (voltage); break;
+      case 2 : error = dcdc3.setVout (voltage); break;
+    }
+    Serial.print ("PSU : ");Serial.print (psu);
+    Serial.print (" Voltage : ");Serial.println (voltage);
+  return error;
 }
 bool BoardCaptain::sense_enable_input (void) {
   if (digitalRead (SYSTEM_EN) == HIGH) {
