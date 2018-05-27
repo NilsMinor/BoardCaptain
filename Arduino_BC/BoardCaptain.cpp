@@ -82,6 +82,48 @@ bool BoardCaptain::setVout (uint8_t psu, float voltage) {
     Serial.print (" Voltage : ");Serial.println (voltage);
   return error;
 }
+float BoardCaptain::getVout (uint8_t psu){
+  float retval = 0;
+  switch (psu) {
+      case 0 : retval = dcdc1.getVout ( ); break;
+      case 1 : retval = dcdc2.getVout ( ); break;
+      case 2 : retval = dcdc3.getVout ( ); break;
+      default : retval = -1; break;
+    }
+    return retval;
+}
+float BoardCaptain::getVin (uint8_t psu) {
+  float retval = 0;
+  switch (psu) {
+      case 0 : retval = dcdc1.getVin ( ); break;
+      case 1 : retval = dcdc2.getVin ( ); break;
+      case 2 : retval = dcdc3.getVin ( ); break;
+      default : retval = -1; break;
+    }
+    return retval;
+}
+float BoardCaptain::getIout (uint8_t psu) {
+  float retval = 0;
+  switch (psu) {
+      case 0 : retval = dcdc1.getIout ( ); break;
+      case 1 : retval = dcdc2.getIout ( ); break;
+      case 2 : retval = dcdc3.getIout ( ); break;
+      default : retval = -1; break;
+    }
+    return retval;
+}
+float BoardCaptain::getPout (uint8_t psu) {
+  float retval = 0;
+  switch (psu) {
+      case 0 : retval = dcdc1.getPout ( ); break;
+      case 1 : retval = dcdc2.getPout ( ); break;
+      case 2 : retval = dcdc3.getPout ( ); break;
+      default : retval = -1; break;
+    }
+    return retval;
+}
+
+// +++++++++++++++++++++++++++++++
 bool BoardCaptain::sense_enable_input (void) {
   if (digitalRead (SYSTEM_EN) == HIGH) {
     system_enabled = false;

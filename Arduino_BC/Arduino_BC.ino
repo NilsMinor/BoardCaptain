@@ -28,9 +28,13 @@
  * Reset Gelb Pin 10
  * 
  */
+ #define PROCESSED_FLAG   0x01
 #include <Shell.h>
 // IO Defines
 BoardCaptain* BC;
+
+uint8_t processed = 0x00;
+bool error = false;
 
 void setup() {
   BC = new BoardCaptain ();
@@ -52,16 +56,23 @@ void loop() {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-/* PSU 0 DCDC0
+/* PSU -1 all 
+ * PSU 0 DCDC0
  * PSU 1 DCDC1 
  * PSU 2 DCDC2
  * PSU 3 Vadj
  * 
- * COMMAND  Parameter    PSU       Value
- * set      VOUT         [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
  * 
+ * COMMAND  Parameter     PSU       Value
+ * set      vout          [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
+ * 
+ *            
+ * get      vout          [0-3]     output voltage in [V]
+ *          vin           [0-3]     input voltage in  [V]
+ *          iout          [0-3]     output current in [A]
+ *          pout          [0-3]     output power in   [W]  
  *
- *
+ * list                   [0-3]              
  *
  */
  
@@ -78,32 +89,69 @@ void shell_writer(char data){
   Serial.write(data);
 }
 
-bool setter_helper (char** argv) {
+bool setter_helper (char** argv, uint8_t *proc) {
   
   int psu = String(argv[2]).toInt ();
   float value = String (argv[3]).toFloat();
-  bool error = true;
+  error = false;
   
-  if (!strcmp(argv[1], (const char *) "VOUT")) {
+  if (!strcmp(argv[1], (const char *) "vout")) {
     error = BC->setVout (psu, value);
+    //*proc = PROCESSED_FLAG;
   }
   return false;
 }
+
+float getter_helper (char** argv, uint8_t *proc) {
+  
+  int psu = String(argv[2]).toInt ();
+  float value = 0;
+  
+  if (!strcmp(argv[1], (const char *) "vout")) {
+    value = BC->getVout (psu); 
+    *proc = PROCESSED_FLAG;
+  }
+  else if (!strcmp(argv[1], (const char *) "vin")) {
+    value = BC->getVin (psu); 
+    *proc = PROCESSED_FLAG;
+  }
+  else if (!strcmp(argv[1], (const char *) "iout")) {
+    value = BC->getIout (psu); 
+    *proc = PROCESSED_FLAG;
+  }
+  else if (!strcmp(argv[1], (const char *) "pout")) {
+    value = BC->getPout (psu); 
+    *proc = PROCESSED_FLAG;
+  }
+  
+  return value;
+}
+
+
 int command_set (int argc, char** argv) {
- bool processed = false;
- bool error = true;
+ processed = 0;
+ error = false;
 
   if (argc == 4) {
-     error = setter_helper (argv);
-     if (!error)
-      return SHELL_RET_SUCCESS;
+     error = setter_helper (argv, &processed);
+     if (!error && processed == PROCESSED_FLAG) 
+        return SHELL_RET_SUCCESS;
   }
   return SHELL_RET_FAILURE;
 }
 
 
 static int command_get (int argc, char** argv) {
-  
+ processed = 0;
+ float retval = 0;
+  if (argc == 3) {
+     retval = getter_helper (argv, &processed);
+     shell_println (String(retval).c_str());
+     
+     if (retval != -1 && processed == PROCESSED_FLAG) 
+        return SHELL_RET_SUCCESS;
+  }
+  return SHELL_RET_FAILURE;
 }
 
 

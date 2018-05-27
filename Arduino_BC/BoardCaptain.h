@@ -52,6 +52,11 @@ class BoardCaptain {
     void state_led (LED_STATE state);
     
     bool setVout (uint8_t psu, float voltage);
+    float getVout (uint8_t psu);
+    float getVin (uint8_t psu);
+    float getIout (uint8_t psu);
+    float getPout (uint8_t psu);    
+
     double getTempIntern (void);
     float getTempFan1 (void);
     float getTempFan2 (void);
