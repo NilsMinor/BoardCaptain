@@ -42,6 +42,7 @@ BoardCaptain::BoardCaptain (void) {
 
   state_led (BC_OK);
   dcdc2.turnOn();
+  dcdc3.turnOn();
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -66,6 +67,7 @@ void BoardCaptain::run_system (void) {
   else {
     state_led (BC_ERROR);
     dcdc2.turnOff();
+    dcdc3.turnOff();
   }
 
   //dcdc1.listAllParameter();
