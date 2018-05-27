@@ -89,13 +89,18 @@ void shell_writer(char data){
   Serial.write(data);
 }
 
+static bool checkArgument (const char * str1, const char * str2) {
+  
+  return (!strcmp(str1, str2));
+}
+
 bool setter_helper (char** argv, uint8_t *proc) {
   
   int psu = String(argv[2]).toInt ();
   float value = String (argv[3]).toFloat();
   error = false;
   
-  if (!strcmp(argv[1], (const char *) "vout")) {
+  if (checkArgument(argv[1],"vout" ) ) {
     error = BC->setVout (psu, value);
     //*proc = PROCESSED_FLAG;
   }
@@ -107,19 +112,19 @@ float getter_helper (char** argv, uint8_t *proc) {
   int psu = String(argv[2]).toInt ();
   float value = 0;
   
-  if (!strcmp(argv[1], (const char *) "vout")) {
+  if (checkArgument(argv[1], "vout" ) ) {
     value = BC->getVout (psu); 
     *proc = PROCESSED_FLAG;
   }
-  else if (!strcmp(argv[1], (const char *) "vin")) {
+  else if (checkArgument (argv[1],"vin") ) {
     value = BC->getVin (psu); 
     *proc = PROCESSED_FLAG;
   }
-  else if (!strcmp(argv[1], (const char *) "iout")) {
+  else if (checkArgument (argv[1],"iout") ) {
     value = BC->getIout (psu); 
     *proc = PROCESSED_FLAG;
   }
-  else if (!strcmp(argv[1], (const char *) "pout")) {
+  else if (checkArgument (argv[1],"pout") ) {
     value = BC->getPout (psu); 
     *proc = PROCESSED_FLAG;
   }

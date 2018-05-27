@@ -17,19 +17,9 @@
 #include <LT_PMBus.h>       // Include for PM-Bus relevant codes
 #include <Wire.h>
 #include <LT_SMBus.h>
-#include <LT_SMBusPec.h>
-#include <LT_SMBusBase.h>
-#include <LT_SMBusGroup.h>
-#include <LT_SMBusARA.h>
-#include <LT_Wire.h>
 #include <LT_SMBusNoPec.h>
 #include <LT_I2CBus.h>
-#include <LT_PMBusRail.h>
-#include <LT_PMBusDevice.h>
-#include <LT_PMBusSpeedTest.h>
-#include <LT_FaultLog.h>
-#include <LT_PMBusMath.h>
-#include <LT_PMBusDetect.h>
+
 
 //   Definition                           Code
 #define ZL2102_OPERATION                  OPERATION                   // LT_BMBus
