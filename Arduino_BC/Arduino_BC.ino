@@ -89,8 +89,7 @@ int shell_reader(char * data) {
 void shell_writer(char data){
   Serial.write(data);
 }
-static bool checkArgument (const char * str1, const char * str2) {
-  
+static bool checkArgument (const char * str1, const char * str2) { 
   return (!strcmp(str1, str2));
 }
 bool setter_helper (char** argv, uint8_t *proc) {
@@ -156,7 +155,22 @@ static int command_list (int argc, char** argv) {
   
 }
 static int command_turn (int argc, char** argv)  {
+  error = false;
+  int psu = String(argv[2]).toInt ();
+  if (argc == 3) {
+    
   
+    if (checkArgument(argv[1],"on" ) ) {
+      error = BC->turn_on_off (psu, true);
+    }
+    else if (checkArgument(argv[1],"off" ) ) {
+      error = BC->turn_on_off (psu, false);
+    }
+     
+     if (!error && processed == PROCESSED_FLAG) 
+        return SHELL_RET_SUCCESS;
+  }
+  return SHELL_RET_FAILURE;
 }
 
 

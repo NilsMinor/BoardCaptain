@@ -37,9 +37,9 @@ BoardCaptain::BoardCaptain (void) {
   sense_enable_input ( );      // update
 
   state_led (BC_OK);
-  //dcdc1.turnOn();
-  dcdc2.turnOn();
-  //dcdc3.turnOn();
+  //dcdc1.turn(true);
+  dcdc2.turn(true);
+  //dcdc3.turn(true);
 
   initFans ();
 
@@ -52,7 +52,7 @@ void BoardCaptain::initTemperatureSensors (void) {
   
   ntc1->init_103AT2(ADC_TEMP_1, REF_RES, 10);
   ntc2->init_NCP15XW(ADC_TEMP_2, REF_RES, 10);
-  ntc2->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
+  ntc_int->init_NCP15XW(ADC_TEMP_INTERN, 10500, 10);   // diffrent voltage 
 }
 void BoardCaptain::run_system (void) {
  
@@ -68,9 +68,9 @@ void BoardCaptain::run_system (void) {
   }
   else {
     state_led (BC_ERROR);
-    dcdc2.turnOff();
+    dcdc2.turn(false);
   }
-  Serial.println(ntc_int->getTemperature());
+  //Serial.println(ntc_int->getTemperature());
   //dcdc1.listAllParameter();
  
 }
@@ -124,6 +124,17 @@ float BoardCaptain::getPout (uint8_t psu) {
       default : retval = -1; break;
     }
     return retval;
+}
+bool BoardCaptain::turn_on_off (uint8_t psu, bool on_off) {
+  bool error = false;
+  
+  switch (psu) {
+      case 0 : dcdc1.turn (on_off); break;
+      case 1 : dcdc2.turn (on_off); break;
+      case 2 : dcdc3.turn (on_off); break;
+      default : error = true; break;
+    }
+    return error;
 }
 
 // +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++

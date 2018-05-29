@@ -80,14 +80,13 @@ class ZL2102 {
     
     bool    setVout (float vout);
     
-    void    turnOn (void);
-    void    turnOff (void);
-
+    void    turn (bool on_off);
     void    listAllParameter (void);
   private:
     uint8_t pmbus_addr;
     LT_PMBus *pmbus;
     LT_SMBus *smbus;
+    bool    isConfigured;
 
     uint8_t  getByte8   (uint8_t cmd);
     uint16_t getWord16  (uint8_t cmd);

@@ -16,6 +16,7 @@ ZL2102::ZL2102 (void) {
   pmbus_addr  = NULL;
   pmbus       = NULL;
   smbus       = NULL;
+  isConfigured = false;
 }
 
 void ZL2102::configure (void) {
@@ -23,18 +24,21 @@ void ZL2102::configure (void) {
   // Device starts from OPERATION command only
   // Turn off the output immediately
   setByte8 (ZL2102_ON_OFF_CFG, 0b00011001);
-  turnOff ();
-  setVout(5.0);
+
+  // check error while configuring the dcdc
   
+  setVout(5.0);
 }
 
-void ZL2102::turnOn (void) {
-  // On & margin state nominal
-  setByte8 (ZL2102_OPERATION,  0b10000100);
-}
-void ZL2102::turnOff (void) {
-  // Immediate off & margin state off
-  setByte8 (ZL2102_OPERATION,  0b00000100);
+void ZL2102::turn (bool on_off) {
+  if (on_off == true) {
+    // On & margin state nominal
+    setByte8 (ZL2102_OPERATION,  0b10000100);
+  }
+  else {
+    // Immediate off & margin state off
+    setByte8 (ZL2102_OPERATION,  0b00000100);
+  }
 }
 
 uint16_t ZL2102::getWord16 (uint8_t cmd) {
