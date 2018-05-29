@@ -24,7 +24,7 @@ void ZL2102::configure (void) {
   // Turn off the output immediately
   setByte8 (ZL2102_ON_OFF_CFG, 0b00011001);
   turnOff ();
-  setVout(3.3);
+  setVout(5.0);
   
 }
 
@@ -44,7 +44,6 @@ uint16_t ZL2102::getWord16 (uint8_t cmd) {
 void ZL2102::setWord16 (uint8_t cmd, uint16_t bitmask) {
   smbus->writeWord (pmbus_addr, cmd, bitmask);
 }
-
 uint8_t ZL2102::getByte8 (uint8_t cmd) {
   uint8_t data_word = smbus->readByte(pmbus_addr, cmd);
   return data_word;
@@ -52,7 +51,6 @@ uint8_t ZL2102::getByte8 (uint8_t cmd) {
 void ZL2102::setByte8 (uint8_t cmd, uint8_t bitmask) {
   smbus->writeByte (pmbus_addr, cmd, bitmask);
 }
-
 float ZL2102::getIout (void) {
   float i = pmbus->readIout (pmbus_addr, false);
   return i;
@@ -84,7 +82,7 @@ bool ZL2102::setVout (float vout) {
     //turnOff ();
     return true;
   }
-  else if (vout > 0.55 && vout < 5.0) {
+  else if (vout > 0.55 && vout < 5.1) {
     pmbus->setVout (pmbus_addr, vout);
     return true;
   }

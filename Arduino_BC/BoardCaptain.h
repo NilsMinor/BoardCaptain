@@ -26,8 +26,7 @@ class BoardCaptain {
     float getPout (uint8_t psu);    
     
     double getTempIntern (void);
-    float getTempFan1 (void);
-    float getTempFan2 (void);
+    float getTempFan (uint8_t fan);
   private:
     void search_smbus_devices (void);
     void enable_vadj (bool enable);

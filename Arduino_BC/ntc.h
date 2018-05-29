@@ -45,15 +45,14 @@
  *  - implement smoothing / averaging 
  *  - implment callibration function
  *  - rework analog reference / also adc circuit
- * 
+ *  - implement commutativity of NTC and reference resistor
  */
 
 #ifndef _NTC_H_
 #define _NTC_H_
 
 #include "Arduino.h"
-
-
+// //23368 Bytes (81%) > 21978 Bytes (76%)
 #define NCP15XW_BC          3950    // B constant
 #define NCP15XW_RES         15000   // Resistance 15k @ 25 °C
 #define R103AT2_BC          3435    // 10k @ 25 °C
@@ -83,7 +82,6 @@ class NTC {
     float     nominalTemperature;
     uint8_t   measurmentFrequency;
     float     analogReferenceVoltage;
-
     double     measuredTemperatureInCelsius;
   
 };

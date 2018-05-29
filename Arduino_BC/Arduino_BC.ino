@@ -46,8 +46,9 @@ void setup() {
   // Add commands to the shell
   shell_register(command_set, PSTR("set"));
   shell_register(command_get, PSTR("get"));
+  shell_register(command_list, PSTR("list"));
+  shell_register(command_turn, PSTR("turn"));
 }
-
 void loop() {
  
   BC->run_system ();
@@ -73,11 +74,12 @@ void loop() {
  *          pout          [0-3]     output power in   [W]  
  *
  * list                   [0-3]              
+ * 
+ * turn     on/off        [0-3]     -1 will turn off all          
  *
  */
  
 int shell_reader(char * data) {
-  // Wrapper for Serial.read() method
   if (Serial.available()) {
     *data = Serial.read();
     return 1;
@@ -85,15 +87,12 @@ int shell_reader(char * data) {
   return 0;
 }
 void shell_writer(char data){
-  // Wrapper for Serial.write() method
   Serial.write(data);
 }
-
 static bool checkArgument (const char * str1, const char * str2) {
   
   return (!strcmp(str1, str2));
 }
-
 bool setter_helper (char** argv, uint8_t *proc) {
   
   int psu = String(argv[2]).toInt ();
@@ -102,11 +101,10 @@ bool setter_helper (char** argv, uint8_t *proc) {
   
   if (checkArgument(argv[1],"vout" ) ) {
     error = BC->setVout (psu, value);
-    //*proc = PROCESSED_FLAG;
+    *proc = PROCESSED_FLAG;
   }
   return false;
 }
-
 float getter_helper (char** argv, uint8_t *proc) {
   
   int psu = String(argv[2]).toInt ();
@@ -118,7 +116,7 @@ float getter_helper (char** argv, uint8_t *proc) {
   }
   else if (checkArgument (argv[1],"vin") ) {
     value = BC->getVin (psu); 
-    *proc = PROCESSED_FLAG;
+    *proc = PROCESSED_FLAG;  
   }
   else if (checkArgument (argv[1],"iout") ) {
     value = BC->getIout (psu); 
@@ -131,8 +129,6 @@ float getter_helper (char** argv, uint8_t *proc) {
   
   return value;
 }
-
-
 int command_set (int argc, char** argv) {
  processed = 0;
  error = false;
@@ -144,8 +140,6 @@ int command_set (int argc, char** argv) {
   }
   return SHELL_RET_FAILURE;
 }
-
-
 static int command_get (int argc, char** argv) {
  processed = 0;
  float retval = 0;
@@ -158,8 +152,11 @@ static int command_get (int argc, char** argv) {
   }
   return SHELL_RET_FAILURE;
 }
-
-
-
+static int command_list (int argc, char** argv) {
+  
+}
+static int command_turn (int argc, char** argv)  {
+  
+}
 
 

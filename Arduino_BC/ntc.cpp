@@ -14,7 +14,6 @@ NTC::NTC (void) {
 NTC::NTC (uint8_t pin, float bconst, float refres, float nomres, float nomtemp, uint8_t freq) {
   init (pin, bconst, refres, nomres, nomtemp, freq);
 }
-
 void NTC::init (uint8_t pin, float bconst, float refres, float nomres, float nomtemp, uint8_t freq) {
   analog_pin = pin;
   bconstant = bconst;

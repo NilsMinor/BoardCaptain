@@ -37,8 +37,9 @@ BoardCaptain::BoardCaptain (void) {
   sense_enable_input ( );      // update
 
   state_led (BC_OK);
+  //dcdc1.turnOn();
   dcdc2.turnOn();
-  dcdc3.turnOn();
+  //dcdc3.turnOn();
 
   initFans ();
 
@@ -57,7 +58,7 @@ void BoardCaptain::run_system (void) {
  
   ntc1->measureTemperature();
   ntc2->measureTemperature();
-
+  ntc_int->measureTemperature();
   senseFans ();
 
   //Serial.println(sense_input_voltage());
@@ -69,7 +70,7 @@ void BoardCaptain::run_system (void) {
     state_led (BC_ERROR);
     dcdc2.turnOff();
   }
-
+  Serial.println(ntc_int->getTemperature());
   //dcdc1.listAllParameter();
  
 }
@@ -205,12 +206,12 @@ double BoardCaptain::getTempIntern (void) {
   // Depends on DCDC1 to be 5.0V
   return ntc_int->getTemperature();
 }
-float BoardCaptain::getTempFan1 (void) {
-  return ntc1->getTemperature();
+float BoardCaptain::getTempFan (uint8_t fan) {
+  if (fan == 1) return ntc1->getTemperature();
+  else if (fan == 2) return ntc2->getTemperature();
+  else return -1;
 }
-float BoardCaptain::getTempFan2 (void) {
-  return ntc1->getTemperature();
-}
+
 
 
 
