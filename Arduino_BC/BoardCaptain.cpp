@@ -37,9 +37,9 @@ BoardCaptain::BoardCaptain (void) {
   sense_enable_input ( );      // update
 
   state_led (BC_OK);
-  //dcdc1.turn(true);
-  dcdc2.turn(true);
-  //dcdc3.turn(true);
+  dcdc1.turn(false);
+  dcdc2.turn(false);
+  dcdc3.turn(false);
 
   initFans ();
 
@@ -65,11 +65,13 @@ void BoardCaptain::run_system (void) {
   if (sense_enable_input()) {
     state_led (BC_OK);
     //dcdc2.turnOn();
+    dcdc2.configure ();
   }
   else {
     state_led (BC_ERROR);
     dcdc2.turn(false);
   }
+  
   //Serial.println(ntc_int->getTemperature());
   //dcdc1.listAllParameter();
  
@@ -141,16 +143,26 @@ bool BoardCaptain::turn_on_off (uint8_t psu, bool on_off) {
 void BoardCaptain::initFans (void) {
   fan1 = new FanController(FAN_TACH_1, SENSOR_THRESHOLD, FAN_DRIVE_1);
   fan2 = new FanController(FAN_TACH_2, SENSOR_THRESHOLD, FAN_DRIVE_2);
+  
   fan1->begin();
   fan2->begin();
+
+  setFanSpeed (0,0);
+  setFanSpeed (1,0);
 }
 void BoardCaptain::senseFans (void) {
   unsigned int rpms1 = fan1->getSpeed(); // Send the command to get RPM
   unsigned int rpms2 = fan2->getSpeed(); // Send the command to get RPM
-
-  uint8_t target = 50;
-  fan1->setDutyCycle(target);
-  fan2->setDutyCycle(target);
+}
+void BoardCaptain::setFanSpeed (uint8_t fan, uint8_t fanspeed) {
+  Serial.print ("Fan : ");Serial.print (fan);
+  Serial.print (" speed : ");Serial.println (fanspeed);
+  if (fanspeed <= 100) {    
+    switch (fan) {
+      case 0: fan1->setDutyCycle(fanspeed);
+      case 1: fan2->setDutyCycle(fanspeed);
+    }
+  }
 }
 // +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++
 

@@ -23,7 +23,8 @@ class BoardCaptain {
     float getVout (uint8_t psu);
     float getVin (uint8_t psu);
     float getIout (uint8_t psu);
-    float getPout (uint8_t psu);    
+    float getPout (uint8_t psu);   
+    void  setFanSpeed (uint8_t fan, uint8_t fanspeed);
     
     double getTempIntern (void);
     float getTempFan (uint8_t fan);

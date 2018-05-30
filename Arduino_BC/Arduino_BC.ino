@@ -66,6 +66,7 @@ void loop() {
  * 
  * COMMAND  Parameter     PSU       Value
  * set      vout          [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
+ *          fan           [0-1]     0-100
  * 
  *            
  * get      vout          [0-3]     output voltage in [V]
@@ -95,11 +96,15 @@ static bool checkArgument (const char * str1, const char * str2) {
 bool setter_helper (char** argv, uint8_t *proc) {
   
   int psu = String(argv[2]).toInt ();
-  float value = String (argv[3]).toFloat();
   error = false;
   
   if (checkArgument(argv[1],"vout" ) ) {
-    error = BC->setVout (psu, value);
+    
+    error = BC->setVout (psu, String (argv[3]).toFloat());
+    *proc = PROCESSED_FLAG;
+  }
+  else if (checkArgument(argv[1], "fan" ) ) {
+    BC->setFanSpeed (psu, (uint8_t) String(argv[3]).toInt ());
     *proc = PROCESSED_FLAG;
   }
   return false;
