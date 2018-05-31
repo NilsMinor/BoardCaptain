@@ -1,14 +1,12 @@
 
 #include "ZL2102.h"
 
-
-
-void ZL2102::init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr) {
+void ZL2102::init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID) {
 
   pmbus_addr = _pmbus_addr;
   pmbus = pmbus_obj;
   smbus = smbus_obj;
-  //
+  ID = _ID;
 }
 
 ZL2102::ZL2102 (void) {
@@ -95,12 +93,19 @@ bool ZL2102::setVout (float vout) {
 }
 
 void ZL2102::listAllParameter (void) {
-  Serial.print("Vin : "); Serial.print(getVin());
-  Serial.print(" Vout : "); Serial.print(getVout());  
-  Serial.print(" Iout : "); Serial.print(getIout());
-  Serial.print(" Pout : "); Serial.print(getPout());
-  Serial.print(" Freq : "); Serial.print(getFrequency());
-  Serial.print(" Temp : "); Serial.print(getTempearature());
-  Serial.println();
+
+  const size_t bufferSize = JSON_OBJECT_SIZE(7);
+  DynamicJsonBuffer jsonBuffer(bufferSize);
+  
+  JsonObject& root = jsonBuffer.createObject();
+  root["psu"] = ID;
+  root["vin"] = getVin();
+  root["vout"] = getVout();
+  root["iout"] = getIout();
+  root["freq"] = getFrequency ();
+  root["pout"] = getPout ();
+  root["temp"] = getTempearature();
+  root.printTo(Serial);
+  Serial.println("");
 }
 

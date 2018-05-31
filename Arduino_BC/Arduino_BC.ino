@@ -67,7 +67,7 @@ void loop() {
  * COMMAND  Parameter     PSU       Value
  * set      vout          [0-3]     [PSU 0,1,2] =  0 | 0.5 - 5
  *          fan           [0-1]     0-100
- * 
+ *          
  *            
  * get      vout          [0-3]     output voltage in [V]
  *          vin           [0-3]     input voltage in  [V]
@@ -133,7 +133,7 @@ float getter_helper (char** argv, uint8_t *proc) {
   
   return value;
 }
-int command_set (int argc, char** argv) {
+static int command_set (int argc, char** argv) {
  processed = 0;
  error = false;
 
@@ -157,14 +157,21 @@ static int command_get (int argc, char** argv) {
   return SHELL_RET_FAILURE;
 }
 static int command_list (int argc, char** argv) {
+  error = false;
+  int psu = String(argv[1]).toInt ();
   
+  if (argc == 2) {
+      BC->listParameter (psu);
+         
+     if (!error && processed == PROCESSED_FLAG) 
+        return SHELL_RET_SUCCESS;
+  }
+  return SHELL_RET_FAILURE;
 }
 static int command_turn (int argc, char** argv)  {
   error = false;
   int psu = String(argv[2]).toInt ();
-  if (argc == 3) {
-    
-  
+  if (argc == 3) {  
     if (checkArgument(argv[1],"on" ) ) {
       error = BC->turn_on_off (psu, true);
     }

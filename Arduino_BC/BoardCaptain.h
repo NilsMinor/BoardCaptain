@@ -28,7 +28,9 @@ class BoardCaptain {
     
     double getTempIntern (void);
     float getTempFan (uint8_t fan);
-    bool turn_on_off (uint8_t psu, bool on_off);
+    bool turn_on_off (int8_t psu, bool on_off);
+    void listParameter (int8_t psu);
+    void list (void);
   private:
     void search_smbus_devices (void);
     void enable_vadj (bool enable);
@@ -39,7 +41,6 @@ class BoardCaptain {
     void initTemperatureSensors (void);
 
     // Fan controller
-    
     void initFans (void);
     void senseFans (void);
     

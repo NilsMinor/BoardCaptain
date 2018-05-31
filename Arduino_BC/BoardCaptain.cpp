@@ -18,14 +18,12 @@ BoardCaptain::BoardCaptain (void) {
 
   pinMode(ADC_12V_INPUT, INPUT);
  
-  enable_vadj (false);                // disable adjustable voltage controller
-
   smbus = new LT_SMBusNoPec();
   pmbus = new LT_PMBus(smbus);
 
-  dcdc1.init (pmbus, smbus, ZL2102_ADDR_1);
-  dcdc2.init (pmbus, smbus, ZL2102_ADDR_2);
-  dcdc3.init (pmbus, smbus, ZL2102_ADDR_3);
+  dcdc1.init (pmbus, smbus, ZL2102_ADDR_1, 0);
+  dcdc2.init (pmbus, smbus, ZL2102_ADDR_2, 1);
+  dcdc3.init (pmbus, smbus, ZL2102_ADDR_3, 2);
   
   dcdc1.configure ();
   dcdc2.configure ();
@@ -59,22 +57,18 @@ void BoardCaptain::run_system (void) {
   ntc1->measureTemperature();
   ntc2->measureTemperature();
   ntc_int->measureTemperature();
-  senseFans ();
+  this->senseFans ();
 
   //Serial.println(sense_input_voltage());
   if (sense_enable_input()) {
     state_led (BC_OK);
     //dcdc2.turnOn();
-    dcdc2.configure ();
+    //dcdc2.configure ();
   }
   else {
     state_led (BC_ERROR);
     dcdc2.turn(false);
-  }
-  
-  //Serial.println(ntc_int->getTemperature());
-  //dcdc1.listAllParameter();
- 
+  } 
 }
 bool BoardCaptain::setVout (uint8_t psu, float voltage) {
   bool error = false;
@@ -127,18 +121,50 @@ float BoardCaptain::getPout (uint8_t psu) {
     }
     return retval;
 }
-bool BoardCaptain::turn_on_off (uint8_t psu, bool on_off) {
+bool BoardCaptain::turn_on_off (int8_t psu, bool on_off) {
   bool error = false;
   
   switch (psu) {
       case 0 : dcdc1.turn (on_off); break;
       case 1 : dcdc2.turn (on_off); break;
       case 2 : dcdc3.turn (on_off); break;
+      case -1 : dcdc1.turn (on_off); 
+                dcdc2.turn (on_off);
+                dcdc3.turn (on_off);
+        break;
       default : error = true; break;
     }
     return error;
 }
-
+void BoardCaptain::listParameter (int8_t psu) {
+  switch (psu) {
+      case 0 : dcdc1.listAllParameter ();  break;
+      case 1 : dcdc2.listAllParameter (); break;
+      case 2 : dcdc3.listAllParameter (); break;
+      case -1: list ();
+               dcdc1.listAllParameter ();
+               dcdc2.listAllParameter ();
+               dcdc3.listAllParameter ();
+      break;
+    } 
+}
+void BoardCaptain::list (void) {
+  const size_t bufferSize = JSON_OBJECT_SIZE(8);
+  DynamicJsonBuffer jsonBuffer(bufferSize);
+  
+  JsonObject& root = jsonBuffer.createObject();
+  root["psu"] = "-1";
+  root["vin"] = sense_input_voltage();
+  root["en"] = sense_enable_input();
+  root["temp_int"] = getTempIntern();
+  root["temp1"] = getTempFan(0);
+  root["temp2"] = getTempFan(1);
+  root["fan1"] = 1300;
+  root["fan2"] = 1200;
+  
+  root.printTo(Serial);
+  Serial.println("");
+}
 // +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++
 void BoardCaptain::initFans (void) {
   fan1 = new FanController(FAN_TACH_1, SENSOR_THRESHOLD, FAN_DRIVE_1);
@@ -155,8 +181,6 @@ void BoardCaptain::senseFans (void) {
   unsigned int rpms2 = fan2->getSpeed(); // Send the command to get RPM
 }
 void BoardCaptain::setFanSpeed (uint8_t fan, uint8_t fanspeed) {
-  Serial.print ("Fan : ");Serial.print (fan);
-  Serial.print (" speed : ");Serial.println (fanspeed);
   if (fanspeed <= 100) {    
     switch (fan) {
       case 0: fan1->setDutyCycle(fanspeed);
@@ -186,36 +210,6 @@ void BoardCaptain::search_smbus_devices (void) {
 void BoardCaptain::error_handler (const char *err_msg) {
   Serial.print ("Error: ");
   Serial.println(err_msg);
-}
-void BoardCaptain::vadj_set_outputs (uint8_t VS2, uint8_t VS1, uint8_t VS0) {
-  digitalWrite (OUT_SET_VADJ_VS0, VS0);
-  digitalWrite (OUT_SET_VADJ_VS0, VS1);
-  digitalWrite (OUT_SET_VADJ_VS2, VS2);
-}
-void BoardCaptain::enable_vadj (bool enable) {
-  if (enable) digitalWrite (OUT_EN_VADJ_1, HIGH);
-  else        digitalWrite (OUT_EN_VADJ_1, LOW);
-}
-void BoardCaptain::set_vadj (VADJ voltage) {
-  switch (voltage) {
-    case (V_3V3): vadj_set_outputs(LOW, LOW, LOW);
-      break;
-    case (V_2V5): vadj_set_outputs(LOW, LOW, HIGH);
-      break;
-    case (V_1V8): vadj_set_outputs(LOW, HIGH, LOW);
-      break;
-    case (V_1V5): vadj_set_outputs(LOW, HIGH, HIGH);
-      break;
-    case (V_1V25): vadj_set_outputs(HIGH, LOW, LOW);
-      break;
-    case (V_1V2): vadj_set_outputs(HIGH, LOW, HIGH);
-      break;
-    case (V_0V8): vadj_set_outputs(HIGH, HIGH, LOW);
-      Serial.println("set Vadj to 0.8V");
-      break;
-    default: error_handler("Vadj error, not implemented");
-      break;
-  }
 }
 void  BoardCaptain::state_led (LED_STATE state) {
   if (state == BC_ERROR)    digitalWrite (OUT_nLED_RG, LOW);

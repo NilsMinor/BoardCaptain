@@ -8,7 +8,7 @@
  *  
  *  
  * TODO:
- * - implemnt sequencing and soft on&off
+ * - implemnt sequencing and soft on & off
  */
 
 #ifndef _ZL2102_H_
@@ -19,7 +19,7 @@
 #include <LT_SMBus.h>
 #include <LT_SMBusNoPec.h>
 #include <LT_I2CBus.h>
-
+#include <ArduinoJson.h>
 
 //   Definition                           Code
 #define ZL2102_OPERATION                  OPERATION                   // LT_BMBus
@@ -69,7 +69,7 @@
 class ZL2102 {
   public:
     ZL2102 (void);
-    void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr);
+    void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID);
     void    configure (void);
     float   getVin(void);
     float   getVout (void);
@@ -81,9 +81,10 @@ class ZL2102 {
     bool    setVout (float vout);
     
     void    turn (bool on_off);
-    void    listAllParameter (void);
+    void  listAllParameter (void);
   private:
     uint8_t pmbus_addr;
+    uint8_t ID;
     LT_PMBus *pmbus;
     LT_SMBus *smbus;
     bool    isConfigured;
