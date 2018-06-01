@@ -64,6 +64,15 @@
 #define ZL2102_TURN_ON_CFG_ON             0b00000000
 #define ZL2102_TURN_ON_CFG_OFF            0b01010001
 
+#define DATA_ARRAY_SIZE     6
+#define DATA_POS_VIN        0
+#define DATA_POS_VOUT       1
+#define DATA_POS_IOUT       2
+#define DATA_POS_POUT       3
+#define DATA_POS_FREQ       4
+#define DATA_POS_TEMP       5
+#define PRINT_JSTART        Serial.print ("{");
+#define PRINT_JSTOP         Serial.print ("}");
 
 
 class ZL2102 {
@@ -71,6 +80,7 @@ class ZL2102 {
     ZL2102 (void);
     void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID);
     void    configure (void);
+    void    smbus_transfer (void);
     float   getVin(void);
     float   getVout (void);
     float   getIout (void);
@@ -79,6 +89,7 @@ class ZL2102 {
     float   getTempearature (void);
     
     bool    setVout (float vout);
+    void    printAsJSON (void);
     
     void    turn (bool on_off);
     void  listAllParameter (void);
@@ -88,6 +99,9 @@ class ZL2102 {
     LT_PMBus *pmbus;
     LT_SMBus *smbus;
     bool    isConfigured;
+    float  data_array[DATA_ARRAY_SIZE];
+    String  data_name[DATA_ARRAY_SIZE];
+    
 
     uint8_t  getByte8   (uint8_t cmd);
     uint16_t getWord16  (uint8_t cmd);

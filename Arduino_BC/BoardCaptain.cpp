@@ -5,6 +5,8 @@
 #define ZL2102_ADDR_2   0x21
 #define ZL2102_ADDR_3   0x22
 
+unsigned long previousMillis = 0;
+
 // Initialize IOs and Communication ports
 BoardCaptain::BoardCaptain (void) {
 
@@ -58,6 +60,14 @@ void BoardCaptain::run_system (void) {
   ntc2->measureTemperature();
   ntc_int->measureTemperature();
   this->senseFans ();
+
+
+   if (millis() - previousMillis > 10) {
+    previousMillis = millis();   // aktuelle Zeit abspeichern
+    dcdc1.smbus_transfer();
+    dcdc2.smbus_transfer();
+    dcdc3.smbus_transfer();
+  }
 
   //Serial.println(sense_input_voltage());
   if (sense_enable_input()) {
@@ -138,18 +148,19 @@ bool BoardCaptain::turn_on_off (int8_t psu, bool on_off) {
 }
 void BoardCaptain::listParameter (int8_t psu) {
   switch (psu) {
-      case 0 : dcdc1.listAllParameter ();  break;
-      case 1 : dcdc2.listAllParameter (); break;
-      case 2 : dcdc3.listAllParameter (); break;
+      case 0 : dcdc1.printAsJSON ();  break;
+      case 1 : dcdc2.printAsJSON (); break;
+      case 2 : dcdc3.printAsJSON (); break;
       case -1: list ();
-               dcdc1.listAllParameter ();
-               dcdc2.listAllParameter ();
-               dcdc3.listAllParameter ();
+               dcdc1.printAsJSON ();
+               dcdc2.printAsJSON ();
+               dcdc3.printAsJSON ();
       break;
     } 
 }
 void BoardCaptain::list (void) {
-  const size_t bufferSize = JSON_OBJECT_SIZE(8);
+  
+  /*const size_t bufferSize = JSON_OBJECT_SIZE(8);
   DynamicJsonBuffer jsonBuffer(bufferSize);
   
   JsonObject& root = jsonBuffer.createObject();
@@ -164,6 +175,7 @@ void BoardCaptain::list (void) {
   
   root.printTo(Serial);
   Serial.println("");
+  */
 }
 // +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++
 void BoardCaptain::initFans (void) {
