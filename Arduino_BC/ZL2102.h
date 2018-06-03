@@ -19,7 +19,6 @@
 #include <LT_SMBus.h>
 #include <LT_SMBusNoPec.h>
 #include <LT_I2CBus.h>
-#include <ArduinoJson.h>
 
 //   Definition                           Code
 #define ZL2102_OPERATION                  OPERATION                   // LT_BMBus
@@ -64,16 +63,17 @@
 #define ZL2102_TURN_ON_CFG_ON             0b00000000
 #define ZL2102_TURN_ON_CFG_OFF            0b01010001
 
-#define DATA_ARRAY_SIZE     6
-#define DATA_POS_VIN        0
-#define DATA_POS_VOUT       1
-#define DATA_POS_IOUT       2
-#define DATA_POS_POUT       3
-#define DATA_POS_FREQ       4
-#define DATA_POS_TEMP       5
-#define PRINT_JSTART        Serial.print ("{");
-#define PRINT_JSTOP         Serial.print ("}");
-
+#define DATA_ARRAY_SIZE         6
+#define DATA_POS_VIN            0
+#define DATA_POS_VOUT           1
+#define DATA_POS_IOUT           2
+#define DATA_POS_POUT           3
+#define DATA_POS_FREQ           4
+#define DATA_POS_TEMP           5
+#define PRINT_JSTART            Serial.print ("{");
+#define PRINT_JSTOP             Serial.print ("}");
+#define PRINT_JSON_NAME(x)      Serial.print ('"');Serial.print (x);Serial.print ('"');
+#define PRINT_JSON_NAME_ID(x,i) Serial.print ('"');Serial.print (x);Serial.print (i);Serial.print ('"');Serial.print(":");
 
 class ZL2102 {
   public:

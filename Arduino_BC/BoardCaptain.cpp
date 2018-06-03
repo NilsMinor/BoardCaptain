@@ -43,6 +43,13 @@ BoardCaptain::BoardCaptain (void) {
 
   initFans ();
 
+  data_name[DATA_POS_VIN] = "vin";
+  data_name[DATA_POS_EN] = "en";
+  data_name[DATA_POS_TINT] = "tint";
+  data_name[DATA_POS_T1] = "temp1";
+  data_name[DATA_POS_T2] = "temp2";
+  data_name[DATA_POS_FAN1] = "fan1";
+  data_name[DATA_POS_FAN2] = "fan2";
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -148,34 +155,32 @@ bool BoardCaptain::turn_on_off (int8_t psu, bool on_off) {
 }
 void BoardCaptain::listParameter (int8_t psu) {
   switch (psu) {
-      case 0 : dcdc1.printAsJSON ();  break;
+      case 0 : dcdc1.printAsJSON (); break;
       case 1 : dcdc2.printAsJSON (); break;
       case 2 : dcdc3.printAsJSON (); break;
-      case -1: list ();
+      case -1: this->printAsJSON ();
                dcdc1.printAsJSON ();
                dcdc2.printAsJSON ();
                dcdc3.printAsJSON ();
       break;
     } 
 }
-void BoardCaptain::list (void) {
+void BoardCaptain::printAsJSON (void) {
   
-  /*const size_t bufferSize = JSON_OBJECT_SIZE(8);
-  DynamicJsonBuffer jsonBuffer(bufferSize);
-  
-  JsonObject& root = jsonBuffer.createObject();
-  root["psu"] = "-1";
-  root["vin"] = sense_input_voltage();
-  root["en"] = sense_enable_input();
-  root["temp_int"] = getTempIntern();
-  root["temp1"] = getTempFan(0);
-  root["temp2"] = getTempFan(1);
-  root["fan1"] = 1300;
-  root["fan2"] = 1200;
-  
-  root.printTo(Serial);
-  Serial.println("");
-  */
+  PRINT_JSTART
+    PRINT_JSON_NAME_ID("psu", -1) 
+    PRINT_JSTART
+    for (uint8_t i=0; i!=DATA_ARRAY_SIZE;i++) {
+      PRINT_JSON_NAME(data_name[i])
+      Serial.print (":");
+      Serial.print (data_array[i]);
+      if (i != (DATA_ARRAY_SIZE-1))
+        Serial.print (",");
+    }
+    PRINT_JSTOP
+  PRINT_JSTOP
+  Serial.println ("");
+
 }
 // +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++ +++++++++++++++++++++++++++++++
 void BoardCaptain::initFans (void) {

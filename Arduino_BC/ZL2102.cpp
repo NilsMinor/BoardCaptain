@@ -43,10 +43,10 @@ void ZL2102::smbus_transfer (void) {
 }
 void ZL2102::printAsJSON (void) {
   PRINT_JSTART
-    Serial.print ("psu");Serial.print (":");Serial.print (ID);
+    PRINT_JSON_NAME_ID("psu", ID) 
     PRINT_JSTART
     for (uint8_t i=0; i!=DATA_ARRAY_SIZE;i++) {
-      Serial.print (data_name[i]);
+      PRINT_JSON_NAME(data_name[i])
       Serial.print (":");
       Serial.print (data_array[i]);
       if (i != (DATA_ARRAY_SIZE-1))
@@ -54,6 +54,7 @@ void ZL2102::printAsJSON (void) {
     }
     PRINT_JSTOP
   PRINT_JSTOP
+  Serial.println ("");
 }
 
 void ZL2102::turn (bool on_off) {

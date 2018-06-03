@@ -7,6 +7,16 @@
 #ifndef _BOARD_CAPTAI_H_
 #define _BOARD_CAPTAI_H_
 
+
+#define DATA_ARRAY_SIZE         7
+#define DATA_POS_VIN            0
+#define DATA_POS_EN             1
+#define DATA_POS_TINT           2
+#define DATA_POS_T1             3
+#define DATA_POS_T2             4
+#define DATA_POS_FAN1           5
+#define DATA_POS_FAN2           6
+
 enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
 enum PARAMETER { VOLTAGE, CURRENT, POWER}; 
@@ -30,7 +40,7 @@ class BoardCaptain {
     float getTempFan (uint8_t fan);
     bool turn_on_off (int8_t psu, bool on_off);
     void listParameter (int8_t psu);
-    void list (void);
+    void printAsJSON (void);
   private:
     void search_smbus_devices (void);
     void enable_vadj (bool enable);
@@ -39,6 +49,9 @@ class BoardCaptain {
     bool sense_enable_input (void);
     float sense_input_voltage (void);
     void initTemperatureSensors (void);
+    
+    float  data_array[DATA_ARRAY_SIZE];
+    String  data_name[DATA_ARRAY_SIZE];
 
     // Fan controller
     void initFans (void);
