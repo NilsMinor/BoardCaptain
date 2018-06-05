@@ -37,10 +37,10 @@
 // A2 is N.C. 
 /*!  Digital Outputs ***************************************************************************************** */
 #define OUT_nLED_RG         4     // Pin 25       // LOW = red, HIGH = green      
-#define OUT_SET_VADJ_VS0    11    // MISO Pin 11
-#define OUT_SET_VADJ_VS1    6     // SCK Pin 9
-#define OUT_SET_VADJ_VS2    33    // MOSI Pin 10
-#define OUT_EN_VADJ_1       7     // Pin
+#define OUT_SET_VADJ_VS0    11    // MISO Pin 11  //
+#define OUT_SET_VADJ_VS1    6     // SCK Pin 9    //
+#define OUT_SET_VADJ_VS2    33    // MOSI Pin 10  //
+#define OUT_EN_VADJ_1       7     // Pin          //
 // D5 is N.C.
 /*!  PWM Poutputs   ***************************************************************************************** */
 #define FAN_DRIVE_1         9     // Pin 29       // PWM Drive for fan 1
@@ -50,10 +50,10 @@
 #define FAN_TACH_2          8     // Pin 28       // Tacho input for fan 2
 #define SYSTEM_EN           13    // Pin 32       // Enable system, active low pulled down on module
 /*!  Communication  ***************************************************************************************** */
-#define SMBUS_SDA           19    // Pin 19
-#define SMBUS_SCL           18    // Pin 18
-#define UART_TX             1     // Pin 21
-#define UART_RX             0     // Pin 20   
+#define SMBUS_SDA           19    // Pin 19       // I2C data 
+#define SMBUS_SCL           18    // Pin 18       // I2C clock
+#define UART_TX             1     // Pin 21       // uart tx
+#define UART_RX             0     // Pin 20       // uart rx
 /*****************************************************************
 ******************************************* */
 /*!  Functionality  ***************************************************************************************** */

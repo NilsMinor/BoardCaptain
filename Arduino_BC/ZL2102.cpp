@@ -15,6 +15,10 @@ ZL2102::ZL2102 (void) {
   data_name[DATA_POS_POUT] = "pout";
   data_name[DATA_POS_FREQ] = "freq";
   data_name[DATA_POS_TEMP] = "temp";
+
+  for(uint8_t i = 0; i < DATA_ARRAY_SIZE; ++i){
+      data_array[i] = 0.0;
+  }
 }
 void ZL2102::init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID) {
 
@@ -55,7 +59,6 @@ void ZL2102::printAsJSON (void) {
   PRINT_JSTOP
   Serial.println ("");
 }
-
 void ZL2102::turn (bool on_off) {
   if (on_off == true) {
     // On & margin state nominal
@@ -66,7 +69,6 @@ void ZL2102::turn (bool on_off) {
     setByte8 (ZL2102_OPERATION,  0b00000100);
   }
 }
-
 
 float ZL2102::getVin(void)            { return data_array [DATA_POS_VIN]; }
 float ZL2102::getVout (void)          { return data_array [DATA_POS_VOUT]; }

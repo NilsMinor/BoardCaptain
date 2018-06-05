@@ -57,11 +57,13 @@ void loop() {
 
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-/* PSU -1 all 
- * PSU 0 DCDC0
- * PSU 1 DCDC1 
- * PSU 2 DCDC2
- * PSU 3 Vadj
+/* PSU -1 BoardCaptain 
+ * PSU -2 all  
+ * PSU  0 DCDC0
+ * PSU  1 DCDC1 
+ * PSU  2 DCDC2
+ * PSU  3 Vadj
+ * 
  * 
  * 
  * COMMAND  Parameter     PSU       Value
@@ -76,7 +78,8 @@ void loop() {
  *
  * list                   [0-3]              
  * 
- * turn     on/off        [0-3]     -1 will turn off all          
+ * turn     on/off        [0-3]     
+ *                                 
  *
  */
  

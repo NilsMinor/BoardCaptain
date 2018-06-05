@@ -50,6 +50,10 @@ BoardCaptain::BoardCaptain (void) {
   data_name[BOARD_DATA_POS_T2] = "temp2";
   data_name[BOARD_DATA_POS_FAN1] = "fan1";
   data_name[BOARD_DATA_POS_FAN2] = "fan2";
+
+  for(uint8_t i = 0; i < BOARD_DATA_ARRAY_SIZE; ++i){
+      data_array[i] = 0.0;
+  }
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -71,12 +75,14 @@ void BoardCaptain::run_system (void) {
 
    if (millis() - previousMillis > 10) {
     previousMillis = millis();   // aktuelle Zeit abspeichern
-    dcdc1.smbus_transfer();
+    /*dcdc1.smbus_transfer();
     dcdc2.smbus_transfer();
-    dcdc3.smbus_transfer();
+    dcdc3.smbus_transfer();*/
   }
 
   //Serial.println(sense_input_voltage());
+
+  data_array[BOARD_DATA_POS_EN] = (float) system_enabled;
   if (sense_enable_input()) {
     state_led (BC_OK);
     //dcdc2.turnOn();
@@ -84,7 +90,7 @@ void BoardCaptain::run_system (void) {
   }
   else {
     state_led (BC_ERROR);
-    dcdc2.turn(false);
+    //dcdc2.turn(false);
   } 
 }
 bool BoardCaptain::setVout (uint8_t psu, float voltage) {
@@ -158,7 +164,8 @@ void BoardCaptain::listParameter (int8_t psu) {
       case 0 : dcdc1.printAsJSON (); break;
       case 1 : dcdc2.printAsJSON (); break;
       case 2 : dcdc3.printAsJSON (); break;
-      case -1: this->printAsJSON ();
+      case -1: this->printAsJSON (); break;
+      case -2: this->printAsJSON (); 
                dcdc1.printAsJSON ();
                dcdc2.printAsJSON ();
                dcdc3.printAsJSON ();
