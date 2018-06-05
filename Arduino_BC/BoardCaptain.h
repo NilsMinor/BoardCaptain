@@ -8,14 +8,14 @@
 #define _BOARD_CAPTAI_H_
 
 
-#define DATA_ARRAY_SIZE         7
-#define DATA_POS_VIN            0
-#define DATA_POS_EN             1
-#define DATA_POS_TINT           2
-#define DATA_POS_T1             3
-#define DATA_POS_T2             4
-#define DATA_POS_FAN1           5
-#define DATA_POS_FAN2           6
+#define BOARD_DATA_ARRAY_SIZE         7
+#define BOARD_DATA_POS_VIN            0
+#define BOARD_DATA_POS_EN             1
+#define BOARD_DATA_POS_TINT           2
+#define BOARD_DATA_POS_T1             3
+#define BOARD_DATA_POS_T2             4
+#define BOARD_DATA_POS_FAN1           5
+#define BOARD_DATA_POS_FAN2           6
 
 enum LED_STATE {BC_OK, BC_ERROR};
 enum VADJ { V_3V3, V_2V5, V_1V8, V_1V5, V_1V25, V_1V2, V_0V8 };   // selectable voltages for EN531QI
@@ -50,8 +50,8 @@ class BoardCaptain {
     float sense_input_voltage (void);
     void initTemperatureSensors (void);
     
-    float  data_array[DATA_ARRAY_SIZE];
-    String  data_name[DATA_ARRAY_SIZE];
+    float  data_array[BOARD_DATA_ARRAY_SIZE];
+    String  data_name[BOARD_DATA_ARRAY_SIZE];
 
     // Fan controller
     void initFans (void);

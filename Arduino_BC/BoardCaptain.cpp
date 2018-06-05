@@ -43,13 +43,13 @@ BoardCaptain::BoardCaptain (void) {
 
   initFans ();
 
-  data_name[DATA_POS_VIN] = "vin";
-  data_name[DATA_POS_EN] = "en";
-  data_name[DATA_POS_TINT] = "tint";
-  data_name[DATA_POS_T1] = "temp1";
-  data_name[DATA_POS_T2] = "temp2";
-  data_name[DATA_POS_FAN1] = "fan1";
-  data_name[DATA_POS_FAN2] = "fan2";
+  data_name[BOARD_DATA_POS_VIN] = "vin";
+  data_name[BOARD_DATA_POS_EN] = "en";
+  data_name[BOARD_DATA_POS_TINT] = "tint";
+  data_name[BOARD_DATA_POS_T1] = "temp1";
+  data_name[BOARD_DATA_POS_T2] = "temp2";
+  data_name[BOARD_DATA_POS_FAN1] = "fan1";
+  data_name[BOARD_DATA_POS_FAN2] = "fan2";
 }
 void BoardCaptain::initTemperatureSensors (void) {
 
@@ -168,13 +168,13 @@ void BoardCaptain::listParameter (int8_t psu) {
 void BoardCaptain::printAsJSON (void) {
   
   PRINT_JSTART
-    PRINT_JSON_NAME_ID("psu", -1) 
+    PRINT_JSON_NAME_ID("board", 0) 
     PRINT_JSTART
-    for (uint8_t i=0; i!=DATA_ARRAY_SIZE;i++) {
+    for (uint8_t i=0; i!=BOARD_DATA_ARRAY_SIZE;i++) {
       PRINT_JSON_NAME(data_name[i])
       Serial.print (":");
       Serial.print (data_array[i]);
-      if (i != (DATA_ARRAY_SIZE-1))
+      if (i != (BOARD_DATA_ARRAY_SIZE-1))
         Serial.print (",");
     }
     PRINT_JSTOP

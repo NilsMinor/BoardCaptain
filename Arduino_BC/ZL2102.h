@@ -59,7 +59,6 @@
 #define ZL2102_COMMAND_SPACING            2                           // 2ms between consecutive commands
 #define ZL2102_CLOCK_RATE                 100000                      // ???
 
-
 #define ZL2102_TURN_ON_CFG_ON             0b00000000
 #define ZL2102_TURN_ON_CFG_OFF            0b01010001
 
@@ -77,36 +76,40 @@
 
 class ZL2102 {
   public:
-    ZL2102 (void);
-    void init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID);
-    void    configure (void);
-    void    smbus_transfer (void);
-    float   getVin(void);
-    float   getVout (void);
-    float   getIout (void);
-    float   getPout (void);
-    float   getFrequency (void);
-    float   getTempearature (void);
-    
-    bool    setVout (float vout);
-    void    printAsJSON (void);
-    
-    void    turn (bool on_off);
-    void  listAllParameter (void);
-  private:
-    uint8_t pmbus_addr;
-    uint8_t ID;
-    LT_PMBus *pmbus;
-    LT_SMBus *smbus;
-    bool    isConfigured;
-    float  data_array[DATA_ARRAY_SIZE];
-    String  data_name[DATA_ARRAY_SIZE];
-    
+              ZL2102 (void);
+    void      init (LT_PMBus *pmbus_obj,LT_SMBus *smbus_obj, uint8_t _pmbus_addr, uint8_t _ID);
+    void      configure (void);
+    void      smbus_transfer (void);
+    void      turn (bool on_off);
+    float     getVin(void);
+    float     getVout (void);
+    float     getIout (void);
+    float     getPout (void);
+    float     getFrequency (void);
+    float     getTempearature (void);
 
-    uint8_t  getByte8   (uint8_t cmd);
-    uint16_t getWord16  (uint8_t cmd);
-    void     setWord16  (uint8_t cmd, uint16_t bitmask);
-    void     setByte8   (uint8_t cmd, uint8_t bitmask);
+    bool      setVout (float vout);
+    void      printAsJSON (void);
+    
+  private:
+    uint8_t   pmbus_addr;
+    uint8_t   ID;
+    LT_PMBus  *pmbus;
+    LT_SMBus  *smbus;
+    bool      isConfigured;
+    float     data_array[DATA_ARRAY_SIZE];
+    String    data_name[DATA_ARRAY_SIZE];
+    
+    float     readVin(void);
+    float     readVout (void);
+    float     readIout (void);
+    float     readPout (void);
+    float     readFrequency (void);
+    float     readTempearature (void);
+    uint8_t   readByte8   (uint8_t cmd);
+    uint16_t  readWord16  (uint8_t cmd);
+    void      setWord16  (uint8_t cmd, uint16_t bitmask);
+    void      setByte8   (uint8_t cmd, uint8_t bitmask);
 };
 
 #endif
